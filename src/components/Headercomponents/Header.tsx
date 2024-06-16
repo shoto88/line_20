@@ -1,11 +1,10 @@
-import React from "react";
+
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+
 import { Button } from "../ui/button";
 
 const Header = () => {
-  const navigate = useNavigate();
-
+  
   return (
   <>
  {/**ヘッダー */}

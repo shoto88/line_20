@@ -1,6 +1,6 @@
 
 import "./app/globals.css"
-import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Treat from "./components/treat";
 import UserInfo from "./components/userInfo";
