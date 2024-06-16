@@ -2,14 +2,38 @@
 import { Link } from "react-router-dom";
 
 import { Button } from "../ui/button";
+interface HeaderProps {
+  data: any; // より具体的な型に置き換えることをお勧めします
+  status: 'success' | 'pending'; // 必要に応じて他のステータスも追加してください
+}
+const Header: React.FC<HeaderProps> = ({ data, status }) => {
+  
+  let emoji = '😐'; // デフォルトの絵文字
+  let diff = 0;
+  if (status === 'success' && data.waiting && data.treatment) { // data.waiting と data.treatment が存在する場合のみ
+    const waitingValue = data.waiting;
+    const treatmentValue = data.treatment;
+    diff = Math.abs(waitingValue - treatmentValue);
+    console.log(diff)
 
-const Header = () => {
+    if (diff <= 5) {
+      emoji = '😊';
+    } else if (diff <= 10) {
+      emoji = '😥';
+    } else if (diff <= 15) {
+      emoji = '😱';
+    }else{
+      emoji = '😭';
+    }
+  }
+
   
   return (
   <>
  {/**ヘッダー */}
  <div className="fixed flex justify-between px-8 w-screen h-16 bg-teal-400 items-center drop-shadow-2xl border-b border-gray-300 shadow-md">
             <h1 className="font-bold text-2xl">opc_manage</h1>
+            <h1 className="font-bold text-2xl">現在の待ち人数は{String(diff) + '人です'}{emoji}</h1>
             <div className="flex gap-3">
                 <Button variant="outline">
                 <Link to="/" className="text-2xl">

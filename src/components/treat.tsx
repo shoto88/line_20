@@ -1,5 +1,6 @@
 import { useQuery,useQueryClient,useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import Header from './Headercomponents/Header';
 
 
 const Treat = () => {
@@ -45,6 +46,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
   
     return (
       <>
+        <Header data={data} status={status} />
         <div className="flex justify-center gap-44 p-8 pt-20">
           {status === 'pending' ? (
             <p>Loading...</p>

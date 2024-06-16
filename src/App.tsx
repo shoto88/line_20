@@ -6,12 +6,15 @@ import Treat from "./components/treat";
 import UserInfo from "./components/userInfo";
 import Header from "./components/Headercomponents/Header";
 import Patient from "./components/Patient";
+interface HeaderProps {
+  data: any; // より具体的な型に置き換えることをお勧めします
+  status: 'success' | 'pending'; // 必要に応じて他のステータスも追加してください
+}
 
-
-const Home = () => {
+const Home: React.FC<HeaderProps> = ({ data, status }) => {
   return (
     <>
-    <Header />
+    <Header data={data} status={status} />
       <Treat />
       <UserInfo />
     </>
@@ -19,13 +22,13 @@ const Home = () => {
 };
 
 
-const App = () => {
+const App: React.FC<HeaderProps> = ({ data, status }) => {
 return (
 <div>
 
 <div>
   <Routes>
-    <Route path="/" element={<Home />} />
+    <Route path="/" element={<Home data={data} status={status} />} />
 <Route path="/patient" element={<Patient />} />
   </Routes>
 </div>
