@@ -30,17 +30,17 @@ const Header: React.FC = () => {
   return (
   <>
  {/**ヘッダー */}
- <div className="fixed flex justify-between px-8 w-screen h-12 bg-teal-400 items-center drop-shadow-2xl border-b border-gray-300 shadow-md">
+ <div className="fixed flex justify-between px-8 w-screen h-12 bg-teal-200 items-center drop-shadow-sm border-b border-gray-300 shadow-sm">
             <h1 className="font-bold text-2xl">opc_manage</h1>
             <h1 className="font-bold text-2xl">現在の待ち人数は{String(diff) + '人です'}{emoji}</h1>
             <div className="flex gap-3">
                 <Button variant="outline">
-                <Link to="/" className="text-2xl">
-              Home
+                <Link to="/" className="text-2xl font-bold">
+              管理画面
             </Link>
                 </Button>
                 <Button>    <Link to="/patient" className="text-2xl">
-              Patient
+              モニター画面
             </Link></Button>
             </div>
         </div>

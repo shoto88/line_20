@@ -81,7 +81,7 @@ type Ticket = {
                     type="number"
                     value={inputValue}
                     onChange={handleInputChange}
-                    className="w-12"
+                    className="w-14"
                   />
                   <Button onClick={handleSaveClick} disabled={isPending} className='w-10 bg-blue-300 h-6 text-white'>
                     {isPending ? '保存中...' : '登録'}
