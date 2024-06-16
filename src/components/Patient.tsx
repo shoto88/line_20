@@ -78,7 +78,7 @@ const Patient = () => {
           ))
         )}
       </div>
-      <div className="text-center text-2xl font-bold mb-8">
+      <div className="text-center text-6xl font-bold mb-8">
         お待たせしてしまい申し訳ございません🙇‍♂️
       </div>
     </div>
