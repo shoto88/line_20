@@ -35,12 +35,12 @@ const Patient = () => {
   return (
     <div className="flex flex-col min-h-screen">
           {/* ヘッダー */}
-          <div className="fixed flex justify-center px-8 w-screen h-16 bg-teal-200 items-center drop-shadow-2xl border-b border-gray-300 shadow-md">
+          <div className="fixed flex justify-center px-8 w-screen h-32 bg-teal-200 items-center drop-shadow-sm border-b border-gray-300 shadow-sm">
 
           {status === 'pending' ? (
             <h1 className="font-bold text-2xl">Loading...</h1> // ローディング中の表示
           ) : (
-            <h1 className="font-bold text-2xl">
+            <h1 className="font-bold text-6xl">
               現在の待ち人数は{String(diff)}人です{emoji}
             </h1>
           )}
