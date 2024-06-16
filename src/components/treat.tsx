@@ -37,7 +37,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
     return (
       <>
         <Header />
-        <div className="flex justify-center gap-44 p-8 pt-16">
+        <div className="flex justify-center gap-44 p-4 pt-16">
           {status === 'pending' ? (
             <p>Loading...</p>
           ) : (
