@@ -127,20 +127,20 @@ const table = useReactTable({
           <p>Loading...</p>
         ) : (
           <div className="w-full">
-            <div className="flex flex-col items-center justify-center py-4">
+            <div className="flex flex-col items-center justify-center py-2">
               <div className="rounded-md border">
               <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
-              <div className="text-lg font-bold">lineで発券済みの方の一覧</div>
-                      <div className="text-lg font-bold">{today}</div>
+              <div className="text-md font-bold">lineで発券済みの方の一覧</div>
+                      <div className="text-md font-bold">{today}</div>
   
                     </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
                   {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                     <div key={i}>
-                      <Table className='w-full'>
+                      <Table className='w-full text-sm'>
                         <TableHeader>
                           {table.getHeaderGroups().map((headerGroup) => (
-                            <TableRow key={headerGroup.id}>
+                            <TableRow className='h-6' key={headerGroup.id}>
                               {headerGroup.headers.map((header) => (
                                 <TableHead key={header.id}>
                                   {header.isPlaceholder
@@ -156,9 +156,9 @@ const table = useReactTable({
                         </TableHeader>
                         <TableBody>
                           {table.getRowModel().rows.slice(i * 15, (i + 1) * 15).map((row) => (
-                            <TableRow key={row.id}>
+                            <TableRow className="h-6" key={row.id}>
                               {row.getVisibleCells().map((cell) => (
-                                <TableCell key={cell.id}>
+                                <TableCell className="p-3" key={cell.id}>
                                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </TableCell>
                               ))}
