@@ -2,11 +2,10 @@
 import { Link } from "react-router-dom";
 
 import { Button } from "../ui/button";
-interface HeaderProps {
-  data: any; // より具体的な型に置き換えることをお勧めします
-  status: 'success' | 'pending'; // 必要に応じて他のステータスも追加してください
-}
-const Header: React.FC<HeaderProps> = ({ data, status }) => {
+import { useSharedTreatData } from "../useSharedTreatData";
+
+const Header: React.FC = () => {
+  const { data, status } = useSharedTreatData();
   
   let emoji = '😐'; // デフォルトの絵文字
   let diff = 0;

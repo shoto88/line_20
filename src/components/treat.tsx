@@ -1,28 +1,18 @@
-import { useQuery,useQueryClient,useMutation } from '@tanstack/react-query';
+import { useQueryClient,useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Header from './Headercomponents/Header';
+import { useSharedTreatData } from './useSharedTreatData';
 
 
 const Treat = () => {
 
   const queryClient = useQueryClient()
-    const { data, status, error } = useQuery({
-      queryKey: ['kv'],
-      queryFn: async () => {
-        const { data } = await axios.get('https://backend.shotoharu.workers.dev/api/treat');
-        // results は [{ name: 'waiting', value: 1 }, { name: 'treatment', value: 3 }] のような配列
-        console.log(data)
-        console.log(status)
-        return data;
-
-    },
-    // refetchInterval: 2000, 
-    });
+  const { data, status, error } = useSharedTreatData();
 
     const waitingMutation = useMutation<void, unknown, string>({
       mutationFn: async (action) => await axios.put(`https://backend.shotoharu.workers.dev/api/treat/waiting/${action}`),
       onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['kv'] })
+        queryClient.invalidateQueries({ queryKey: ['treatData'] })
       },
     });
 
@@ -46,7 +36,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
   
     return (
       <>
-        <Header data={data} status={status} />
+        <Header />
         <div className="flex justify-center gap-44 p-8 pt-20">
           {status === 'pending' ? (
             <p>Loading...</p>
