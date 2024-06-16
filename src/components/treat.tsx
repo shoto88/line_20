@@ -1,0 +1,95 @@
+import { useQuery,useQueryClient,useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+
+
+const Treat = () => {
+
+  const queryClient = useQueryClient()
+    const { data, status, error } = useQuery({
+      queryKey: ['kv'],
+      queryFn: async () => {
+        const { data } = await axios.get('https://backend.shotoharu.workers.dev/api/treat');
+        // results は [{ name: 'waiting', value: 1 }, { name: 'treatment', value: 3 }] のような配列
+        console.log(data)
+        console.log(status)
+        return data;
+
+    },
+    // refetchInterval: 2000, 
+    });
+
+    const waitingMutation = useMutation<void, unknown, string>({
+      mutationFn: async (action) => await axios.put(`https://backend.shotoharu.workers.dev/api/treat/waiting/${action}`),
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: ['kv'] })
+      },
+    });
+
+
+// treatment の値を更新する useMutation
+const treatmentMutation = useMutation<void, unknown, string>({
+  mutationFn: async (action) => {
+    await axios.put(`https://backend.shotoharu.workers.dev/api/treat/treatment/${action}`);
+  },
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['kv'] });
+  },
+});
+
+// 
+
+
+    if (error) {
+      return <div>エラーが発生しました: {error.message}</div>; // エラー処理
+    }
+  
+    return (
+      <>
+        <div className="flex justify-center gap-44 p-8 pt-20">
+          {status === 'pending' ? (
+            <p>Loading...</p>
+          ) : (
+            Object.entries(data).map(([key, value]) => (
+<div
+            key={key}
+            className={`flex flex-col items-center justify-center gap-4 rounded-lg p-8 shadow-md ${
+              key === 'waiting' ? 'bg-red-100' : 'bg-blue-100'
+            }`}
+          >
+            <span className="text-xl font-bold">
+              {key === 'waiting' ? '発券済み番号' : '診療中番号'}
+            </span>
+            <div className="flex items-center justify-center">
+              <button
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl font-bold text-gray-800 transition-colors hover:bg-white active:bg-white mt-4"
+                onClick={() =>
+                  key === 'waiting'
+                    ? waitingMutation.mutate('decrement')
+                    : treatmentMutation.mutate('decrement')
+                }
+              >
+                -
+              </button>
+              <span className="flex items-center justify-center text-6xl mx-4 font-bold w-24 text-center">
+                {String(value)}
+              </span>
+              <button
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl font-bold text-gray-800 transition-colors hover:bg-gray-300 mt-4"
+                onClick={() =>
+                  key === 'waiting'
+                    ? waitingMutation.mutate('increment')
+                    : treatmentMutation.mutate('increment')
+                }
+              >
+                +
+              </button>
+            </div>
+            </div>
+            ))
+          )}
+        </div>
+      </>
+    );
+    };
+  
+  export default Treat;
