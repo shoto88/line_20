@@ -14,9 +14,9 @@ const MessageComponent: React.FC = () => {
       const targetTimes = isWeekday
         ? [
             { hour: 10, minute: 20 },
-            { hour: 11, minute: 40 },
-            { hour: 17, minute: 0 },
-            { hour: 18, minute: 4 },
+            { hour: 12, minute: 0 },
+            { hour: 14, minute: 20 },
+            { hour: 18, minute: 0 },
           ]
         : [{ hour: 10, minute: 20 }, { hour: 14, minute: 40 }];
 
