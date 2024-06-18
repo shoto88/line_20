@@ -109,7 +109,7 @@ const Header: React.FC = () => {
       {/**ヘッダー */}
       <div className="fixed flex justify-between px-8 w-screen h-12 bg-teal-200 items-center drop-shadow-sm border-b border-gray-300 shadow-sm">
         <h1 className="font-bold text-2xl">大濠パーククリニック🏥</h1>
-        <Button onClick={toggleSystemStatus} className={systemStatus === 0 ? "bg-red-500 text-white text-xl hover:bg-red-700" : "bg-blue-500 text-white font-bold hover:bg-blue-700"}> 
+        <Button onClick={toggleSystemStatus} className={systemStatus === 0 ? "bg-red-500 text-white text-xl hover:bg-red-700" : "bg-blue-500 text-xl font-bold hover:bg-blue-700"}> 
           {systemStatus === 0 ? 'ライン予約可能🙆' : 'ライン予約停止中🙅‍♀️'}
         </Button>
         <h1 className="font-bold text-2xl">現在の待ち人数は{String(diff) + '人です'}{emoji}</h1>
