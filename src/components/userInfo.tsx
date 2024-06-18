@@ -104,7 +104,7 @@ const UserInfo = () => {
             console.log("Fetched data:", response.data);
             return response.data;
         },
-            // refetchInterval: 2000, 
+            refetchInterval: 2000, 
     });
 if (error) {
    <div>エラーが発生しました</div>

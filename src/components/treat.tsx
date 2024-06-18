@@ -54,7 +54,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
             </span>
             <div className="flex items-center justify-center">
               <button
-                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl font-bold text-gray-800 transition-colors hover:bg-white active:bg-white mt-4"
+                className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-white text-3xl font-bold text-gray-800 transition-colors hover:bg-gray-300 mt-4"
                 onClick={() =>
                   key === 'waiting'
                     ? waitingMutation.mutate('decrement')

@@ -14,6 +14,6 @@ export const useSharedTreatData = () => {
         const { data } = await axios.get<TreatData>('https://backend.shotoharu.workers.dev/api/treat'); // レスポンスの型を TreatData に変更
         return data; // レスポンスデータをそのまま返す
       },
-    //   refetchInterval: 2000,
+      refetchInterval: 1000,
     });
   };

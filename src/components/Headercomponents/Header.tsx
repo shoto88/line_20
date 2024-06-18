@@ -11,7 +11,7 @@ import { useState } from "react";
 
 const Header: React.FC = () => {
   const [showSummaryComplete, setShowSummaryComplete] = useState(false); // 集計完了ダイアログの表示状態
-
+  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
   const { data, status } = useSharedTreatData();
   const queryClient = useQueryClient(); 
   let emoji = '😐'; // デフォルトの絵文字
@@ -74,8 +74,32 @@ const Header: React.FC = () => {
 
   const systemStatus = systemStatusData?.value ?? 0;
 
+  const resetMutation = useMutation<{ message: string }, unknown, void>({
+    mutationFn: async () => {
+      const counterResponse = await axios.put('https://backend.shotoharu.workers.dev/api/reset-counter');
+      const ticketsResponse = await axios.delete('https://backend.shotoharu.workers.dev/api/reset-tickets');
+      return { message: `Counter reset: ${counterResponse.data}, Tickets reset: ${ticketsResponse.data}` };
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['ticketSummary'] });
+    },
+    onError: (error) => {
+      console.error('Error resetting data:', error);
+    },
+  });
 
+  const handleReset = () => {
+    setShowResetConfirmation(true);
+  };
 
+  const confirmReset = () => {
+    resetMutation.mutate();
+    setShowResetConfirmation(false);
+  };
+
+  const cancelReset = () => {
+    setShowResetConfirmation(false);
+  };
   const toggleSystemStatus = () => {
     systemStatusMutation.mutate();
   };
@@ -85,11 +109,12 @@ const Header: React.FC = () => {
       {/**ヘッダー */}
       <div className="fixed flex justify-between px-8 w-screen h-12 bg-teal-200 items-center drop-shadow-sm border-b border-gray-300 shadow-sm">
         <h1 className="font-bold text-2xl">大濠パーククリニック🏥</h1>
-        <Button onClick={toggleSystemStatus} className={systemStatus === 0 ? "bg-red-500 text-white text-md hover:bg-red-700" : "bg-blue-500 text-white font-bold hover:bg-blue-700"}> 
+        <Button onClick={toggleSystemStatus} className={systemStatus === 0 ? "bg-red-500 text-white text-xl hover:bg-red-700" : "bg-blue-500 text-white font-bold hover:bg-blue-700"}> 
           {systemStatus === 0 ? 'ライン予約可能🙆' : 'ライン予約停止中🙅‍♀️'}
         </Button>
         <h1 className="font-bold text-2xl">現在の待ち人数は{String(diff) + '人です'}{emoji}</h1>
         <div className="flex gap-3">
+        <Button onClick={handleReset} className="bg-red-500 text-white hover:bg-red-700">リセット</Button>
          <Button onClick={handleSummarize} className='bg-yellow-200 text-gray-800 hover:bg-yellow-300'>集計</Button>
          {showSummaryComplete && (
           <div className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-green-100 text-green-700 p-4 rounded-md shadow-md">
@@ -102,8 +127,21 @@ const Header: React.FC = () => {
             </Link>
           </Button>
         </div>
+    </div>
+  {/* 削除確認ダイアログ */}
+  {showResetConfirmation && (
+    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white p-8 rounded-md shadow-md">
+        <h2 className="text-xl font-bold mb-4">データのリセット</h2>
+        <p className="mb-4">本当にデータをリセットしますか？この操作は取り消せません。</p>
+        <div className="flex justify-end">
+          <Button onClick={cancelReset} className="bg-gray-500 text-white hover:bg-gray-700 mr-2">キャンセル</Button>
+          <Button onClick={confirmReset} className="bg-red-500 text-white hover:bg-red-700">リセット</Button>
+        </div>
       </div>
-    </>
+    </div>
+  )}
+</>
   );
 };
 
