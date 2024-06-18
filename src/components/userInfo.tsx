@@ -17,6 +17,7 @@ import {
   } from "@/components/ui/table";
 import { useState } from 'react';
 import { Button } from './ui/button';
+import { Link } from 'react-router-dom';
 type Ticket = {
     ticket_number: number;
     name: string;
@@ -175,6 +176,12 @@ const table = useReactTable({
           </div>
         )}
       </div>
+      <Link to="/ticket-summary">
+            <Button variant="outline" className="mt-20 text-blue-700 border-teal-700 hover:bg-teal-700 hover:text-white text-sm">
+              summary
+            </Button>
+          </Link>
+
     </>
   );
 };

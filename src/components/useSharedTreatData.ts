@@ -7,7 +7,7 @@ interface TreatData {
     treatment: number;
   }
   
-  export const useSharedTreatData = () => {
+export const useSharedTreatData = () => {
     return useQuery<TreatData, Error>({
       queryKey: ['treatData'],
       queryFn: async () => {
@@ -17,4 +17,3 @@ interface TreatData {
     //   refetchInterval: 2000,
     });
   };
-

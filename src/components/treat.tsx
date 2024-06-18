@@ -4,6 +4,7 @@ import Header from './Headercomponents/Header';
 import { useSharedTreatData } from './useSharedTreatData';
 
 
+
 const Treat = () => {
 
   const queryClient = useQueryClient()
@@ -23,7 +24,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
     await axios.put(`https://backend.shotoharu.workers.dev/api/treat/treatment/${action}`);
   },
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['kv'] });
+    queryClient.invalidateQueries({ queryKey: ['treatData'] });
   },
 });
 
