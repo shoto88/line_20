@@ -69,9 +69,8 @@ const Header: React.FC = () => {
       return response.data;
     },
     onSuccess: (data) => {
-      // 更新されたデータをキャッシュに直接セット
+      console.log("Response data:", data);
       queryClient.setQueryData(['systemStatus'], data);
-      // 念のため再フェッチも行う
       refetchSystemStatus();
     },
     onError: (error) => {
