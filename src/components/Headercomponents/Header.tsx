@@ -71,7 +71,7 @@ const Header: React.FC = () => {
     },
     onSuccess: (data) => {
       console.log("Response data:", data);
-      queryClient.setQueryData(['systemStatus'], data);
+      queryClient.invalidateQueries({ queryKey: ['systemStatus'] });
    
     },
     onError: (error) => {
