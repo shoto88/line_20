@@ -55,12 +55,13 @@ const Header: React.FC = () => {
     summarizeMutation.mutate();
   };
   
-  const { data: systemStatusData, refetch: refetchSystemStatus } = useQuery<{ value: number }, unknown>({
+  const { data: systemStatusData } = useQuery<{ value: number }, unknown>({
     queryKey: ['systemStatus'],
     queryFn: async () => {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/status`);
       return response.data;
     },
+    refetchInterval: 2000,
   });
 
   const systemStatusMutation = useMutation<{ value: number }, unknown, void>({
@@ -71,7 +72,7 @@ const Header: React.FC = () => {
     onSuccess: (data) => {
       console.log("Response data:", data);
       queryClient.setQueryData(['systemStatus'], data);
-      refetchSystemStatus();
+   
     },
     onError: (error) => {
       console.error('Error updating system status:', error);
