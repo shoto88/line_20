@@ -55,29 +55,35 @@ const Header: React.FC = () => {
     summarizeMutation.mutate();
   };
   
-  const { data: systemStatusData } = useQuery<{ value: number }, unknown>({
-    queryKey:['systemStatus'],
-    queryFn:async () => {
+  const { data: systemStatusData, refetch: refetchSystemStatus } = useQuery<{ value: number }, unknown>({
+    queryKey: ['systemStatus'],
+    queryFn: async () => {
       const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/status`);
-      // console.log(response.data)
       return response.data;
     },
-    // refetchInterval: 1000, // ここに移動
   });
 
   const systemStatusMutation = useMutation<{ value: number }, unknown, void>({
     mutationFn: async () => {
       const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/status`);
-      return response.data.value;
+      return response.data;
     },
-    onSuccess: (newStatus) => {
-      queryClient.setQueryData(['systemStatus'], newStatus);
-      queryClient.invalidateQueries({ queryKey: ['systemStatus'] });
-      console.log(newStatus)
+    onSuccess: (data) => {
+      // 更新されたデータをキャッシュに直接セット
+      queryClient.setQueryData(['systemStatus'], data);
+      // 念のため再フェッチも行う
+      refetchSystemStatus();
+    },
+    onError: (error) => {
+      console.error('Error updating system status:', error);
     },
   });
 
   const systemStatus = systemStatusData?.value ?? 0;
+
+  const toggleSystemStatus = () => {
+    systemStatusMutation.mutate();
+  };
 
   const resetMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
@@ -105,9 +111,7 @@ const Header: React.FC = () => {
   const cancelReset = () => {
     setShowResetConfirmation(false);
   };
-  const toggleSystemStatus = () => {
-    systemStatusMutation.mutate();
-  };
+
   
 
   const { data: examinationTimeData, isLoading: isLoadingExaminationTime } = useQuery<{ minutes: number }, unknown>({
