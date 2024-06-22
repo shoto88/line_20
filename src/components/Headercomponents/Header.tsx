@@ -34,7 +34,7 @@ const Header: React.FC = () => {
   }
   const summarizeMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
-      const response = await axios.post('https://backend.shotoharu.workers.dev/api/ticket-summary');
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ticket-summary`);
       return response.data;
     },
     onSuccess: () => {
@@ -53,7 +53,7 @@ const Header: React.FC = () => {
   const { data: systemStatusData } = useQuery<{ value: number }, unknown>({
     queryKey:['systemStatus'],
     queryFn:async () => {
-      const response = await axios.get('https://backend.shotoharu.workers.dev/api/status');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/status`);
       // console.log(response.data)
       return response.data;
     },
@@ -62,7 +62,7 @@ const Header: React.FC = () => {
 
   const systemStatusMutation = useMutation<{ value: number }, unknown, void>({
     mutationFn: async () => {
-      const response = await axios.put('https://backend.shotoharu.workers.dev/api/status');
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/status`);
       return response.data.value;
     },
     onSuccess: (newStatus) => {
@@ -76,8 +76,8 @@ const Header: React.FC = () => {
 
   const resetMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
-      const counterResponse = await axios.put('https://backend.shotoharu.workers.dev/api/reset-counter');
-      const ticketsResponse = await axios.delete('https://backend.shotoharu.workers.dev/api/reset-tickets');
+      const counterResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/reset-counter`);
+      const ticketsResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/api/reset-tickets`);
       return { message: `Counter reset: ${counterResponse.data}, Tickets reset: ${ticketsResponse.data}` };
     },
     onSuccess: () => {

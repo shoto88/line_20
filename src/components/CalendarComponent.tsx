@@ -15,7 +15,7 @@ const CalendarComponent: React.FC = () => {
   const { data: closedDates, status } = useQuery<{ date: string }[], unknown>({
     queryKey: ['closedDates'],
     queryFn: async () => {
-      const response = await axios.get('https://backend.shotoharu.workers.dev/api/closed-dates');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/closed-dates`);
       return response.data;
     },
     refetchInterval: 2000, 
@@ -23,7 +23,7 @@ const CalendarComponent: React.FC = () => {
 
   const addClosedDateMutation = useMutation<void, AxiosError, string>({
     mutationFn: async (date) => {
-      await axios.post('https://backend.shotoharu.workers.dev/api/closed-dates', { date });
+      await axios.post(`${import.meta.env.VITE_API_URL}/api/closed-dates`, { date });
     },
     onSuccess: () => {
       console.log('Closed date added successfully');
@@ -40,7 +40,7 @@ const CalendarComponent: React.FC = () => {
   });
   const removeClosedDateMutation = useMutation<void, unknown, string>({
     mutationFn: async (date) => {
-      await axios.delete(`https://backend.shotoharu.workers.dev/api/closed-dates/${date}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/closed-dates/${date}`);
     },
     onSuccess: () => {
         console.log('Closed date removed successfully');

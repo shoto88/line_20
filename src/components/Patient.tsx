@@ -8,7 +8,7 @@ const Patient = () => {
   const { data, status } = useQuery({
     queryKey: ['kv'],
     queryFn: async () => {
-      const { data } = await axios.get('https://backend.shotoharu.workers.dev/api/treat');
+      const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/treat`);
       return data;
     },
   });

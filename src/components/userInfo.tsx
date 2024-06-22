@@ -53,7 +53,7 @@ type Ticket = {
 
             const { mutate, isPending } = useMutation<void, Error, { examinationNumber: number }>({
                 mutationFn: async ({ examinationNumber }) => {
-                  await axios.put(`https://backend.shotoharu.workers.dev/api/follow/${ticket.line_user_id}/examination-number`, { examinationNumber });
+                  await axios.put(`${import.meta.env.VITE_API_URL}/api/follow/${ticket.line_user_id}/examination-number`, { examinationNumber });
                 },
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ['d1'] });
@@ -100,7 +100,7 @@ const UserInfo = () => {
     const {data, status, error} = useQuery({
         queryKey: ['d1'],
         queryFn: async () => {
-            const response = await axios.get('https://backend.shotoharu.workers.dev/api/lineinfo');
+            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/lineinfo`);
             console.log("Fetched data:", response.data);
             return response.data;
         },

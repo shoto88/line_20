@@ -11,7 +11,7 @@ const Treat = () => {
   const { data, status, error } = useSharedTreatData();
 
     const waitingMutation = useMutation<void, unknown, string>({
-      mutationFn: async (action) => await axios.put(`https://backend.shotoharu.workers.dev/api/treat/waiting/${action}`),
+      mutationFn: async (action) => await axios.put(`${import.meta.env.VITE_API_URL}/api/treat/waiting/${action}`),
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['treatData'] })
       },
@@ -21,7 +21,7 @@ const Treat = () => {
 // treatment の値を更新する useMutation
 const treatmentMutation = useMutation<void, unknown, string>({
   mutationFn: async (action) => {
-    await axios.put(`https://backend.shotoharu.workers.dev/api/treat/treatment/${action}`);
+    await axios.put(`${import.meta.env.VITE_API_URL}/api/treat/treatment/${action}`);
   },
   onSuccess: () => {
     queryClient.invalidateQueries({ queryKey: ['treatData'] });

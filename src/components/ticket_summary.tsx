@@ -20,14 +20,14 @@ const TicketSummary: React.FC = () => {
   const { data: summaryData, status } = useQuery<{ line_user_id: string, line_display_name: string, ticket_time: string, ticket_date: string }[], unknown>({
     queryKey: ['ticketSummary'],
     queryFn: async () => {
-      const response = await axios.get('https://backend.shotoharu.workers.dev/api/ticket-summary');
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/ticket-summary`);
       return response.data;
     },
   });
 
   const summarizeMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
-      const response = await axios.post('https://backend.shotoharu.workers.dev/api/ticket-summary');
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ticket-summary`);
       return response.data;
     },
     onSuccess: () => {
