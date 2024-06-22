@@ -6,12 +6,17 @@ import { Button } from "../ui/button";
 import { useSharedTreatData } from "../useSharedTreatData";
 import { useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import axios from "axios";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 const Header: React.FC = () => {
   const [showSummaryComplete, setShowSummaryComplete] = useState(false); // 集計完了ダイアログの表示状態
   const [showResetConfirmation, setShowResetConfirmation] = useState(false);
+  const [isEditingTime, setIsEditingTime] = useState(false);
+  const [editedTime, setEditedTime] = useState<number | null>(null);
+  const timeInputRef = useRef<HTMLInputElement>(null);
+  const [showUpdateMessage, setShowUpdateMessage] = useState(false);
+
   const { data, status } = useSharedTreatData();
   const queryClient = useQueryClient(); 
   let emoji = '😐'; // デフォルトの絵文字
@@ -104,11 +109,108 @@ const Header: React.FC = () => {
     systemStatusMutation.mutate();
   };
   
+
+  const { data: examinationTimeData, isLoading: isLoadingExaminationTime } = useQuery<{ minutes: number }, unknown>({
+    queryKey: ['examinationTime'],
+    queryFn: async () => {
+      const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/examination-time`);
+      return response.data;
+    },
+  });
+
+  const examinationTime = examinationTimeData?.minutes ?? 4;
+
+
+  const updateExaminationTimeMutation = useMutation<{ minutes: number }, unknown, number>({
+    mutationFn: async (newTime: number) => {
+      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/examination-time`, { minutes: newTime });
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['examinationTime'] });
+      setIsEditingTime(false);
+      setEditedTime(null);
+      setShowUpdateMessage(true);
+      setTimeout(() => {
+        setShowUpdateMessage(false);
+      }, 3000); // 3秒後にメッセージを非表示
+    },
+  });
+
+
+  const handleUpdateExaminationTime = () => {
+    if (editedTime !== null && editedTime > 0) {
+      updateExaminationTimeMutation.mutate(editedTime);
+      if (timeInputRef.current) {
+        timeInputRef.current.blur(); // フォーカスを外す
+      }
+    }
+  };
+  const handleTimeClick = () => {
+    if (!isEditingTime) {
+      setIsEditingTime(true);
+      setEditedTime(examinationTime);
+      setTimeout(() => timeInputRef.current?.focus(), 0);
+    }
+  };
+
+  const handleTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = Number(e.target.value);
+    if (newTime > 0) {
+      setEditedTime(newTime);
+    }
+  };
+  const handleTimeBlur = () => {
+    // 更新ボタンクリック時にも呼ばれるため、すぐには編集モードを解除しない
+    setTimeout(() => {
+      if (!showUpdateMessage) {
+        setIsEditingTime(false);
+        setEditedTime(null);
+      }
+    }, 200);
+  };
+
+
   return (
     <>
       {/**ヘッダー */}
       <div className="fixed flex justify-between px-8 w-screen h-12 bg-teal-200 items-center drop-shadow-sm border-b border-gray-300 shadow-sm">
         <h1 className="font-bold text-2xl">大濠パーククリニック🏥</h1>
+        <div className="flex items-center relative">
+        <span className="mr-2 text-sm">平均診察時間:</span>
+        {isEditingTime ? (
+          <>
+            <input
+              ref={timeInputRef}
+              type="number"
+              value={editedTime ?? ''}
+              onChange={handleTimeChange}
+              onBlur={handleTimeBlur}
+              className="w-12 px-1 py-0.5 text-sm border rounded mr-1 h-6"
+            />
+            <Button 
+              onClick={handleUpdateExaminationTime} 
+              className="px-2 py-0.5 text-xs bg-green-500 text-white hover:bg-green-700 h-6"
+            >
+              更新
+            </Button>
+          </>
+        ) : (
+          <span 
+            className="font-bold text-sm mr-1 cursor-pointer hover:underline" 
+            onClick={handleTimeClick}
+          >
+            {isLoadingExaminationTime ? '読み込み中...' : `${examinationTime}分`}
+          </span>
+        )}
+        {showUpdateMessage && (
+          <span className="absolute top-full left-0 text-xs text-green-600 bg-green-100 px-2 py-1 rounded mt-1">
+            更新しました
+          </span>
+        )}
+      </div>
+
+
         <Button onClick={toggleSystemStatus} className={systemStatus === 0 ? "bg-red-500 text-white text-xl hover:bg-red-700" : "bg-blue-500 text-xl font-bold hover:bg-blue-700"}> 
           {systemStatus === 0 ? 'ライン予約可能🙆' : 'ライン予約停止中🙅‍♀️'}
         </Button>
