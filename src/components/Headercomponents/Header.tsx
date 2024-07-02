@@ -89,7 +89,7 @@ const Header: React.FC = () => {
     mutationFn: async () => {
       const counterResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/reset-counter`);
       const ticketsResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/api/reset-tickets`);
-      const queueStatusResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/api/reset-queue-status`);
+      const queueStatusResponse = await axios.post(`${import.meta.env.VITE_API_URL}/api/reset-queue-status`);
       return { 
         message: `Counter reset: ${counterResponse.data.message}, 
                   Tickets reset: ${ticketsResponse.data.message}, 
