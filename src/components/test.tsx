@@ -72,7 +72,7 @@ const PatientQueueManagement = () => {
   };
 
   return (
-    <div className="p-2 max-w-5xl mx-auto">
+    <div className="p-2 max-w-6xl mx-auto">
       <h2 className="text-xl font-bold mb-2">診療管理</h2>
       <div className="grid grid-cols-4 gap-2">
         <div className="bg-white p-2 rounded-lg shadow col-span-3">
@@ -114,7 +114,7 @@ const RemainingNumbersDisplay = ({ numbers }: { numbers: number[] }) => (
       <h3 className="text-md font-semibold mb-1">待ち番号</h3>
       <div className="grid grid-cols-3 gap-1 max-h-64 overflow-y-auto">
         {numbers.slice(0, 30).map(num => (
-          <div key={num} className="p-1 bg-yellow-100 rounded text-center text-xs">
+          <div key={num} className="p-1 bg-yellow-100 rounded text-center text-base">
             {num}
           </div>
         ))}
