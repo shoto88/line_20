@@ -110,16 +110,16 @@ const PatientQueueManagement = () => {
 };
 
 const RemainingNumbersDisplay = ({ numbers }: { numbers: number[] }) => (
-  <div className="bg-white p-2 rounded-lg shadow">
-    <h3 className="text-md font-semibold mb-1">待ち番号</h3>
-    <div className="grid grid-cols-2 gap-1 max-h-64 overflow-y-auto">
-      {numbers.slice(0, 10).map(num => (
-        <div key={num} className="p-1 bg-yellow-100 rounded text-center text-xs">
-          {num}
-        </div>
-      ))}
+    <div className="bg-white p-2 rounded-lg shadow">
+      <h3 className="text-md font-semibold mb-1">待ち番号</h3>
+      <div className="grid grid-cols-3 gap-1 max-h-64 overflow-y-auto">
+        {numbers.slice(0, 30).map(num => (
+          <div key={num} className="p-1 bg-yellow-100 rounded text-center text-xs">
+            {num}
+          </div>
+        ))}
+      </div>
     </div>
-  </div>
-);
+  );
 
 export default PatientQueueManagement;
