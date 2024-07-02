@@ -184,7 +184,11 @@ const table = useReactTable({
               summary
             </Button>
           </Link>
-
+<Link to="/display">
+            <Button variant="outline" className="ml-10 mt-20 text-blue-700 border-teal-700 hover:bg-teal-700 hover:text-white text-sm">
+              display
+            </Button>
+          </Link>
 
     </>
   );

@@ -8,7 +8,7 @@ import Header from "./components/Headercomponents/Header";
 import Patient from "./components/Patient";
 import TicketSummary from "./components/ticket_summary";
 import MessageComponent from "./components/Message";
-import PatientQueueManagement from "./components/test";
+import WaitingRoomDisplay from "./components/display";
 // import CalendarComponent from "./components/CalendarComponent";
 
 
@@ -34,7 +34,7 @@ return (
     <Route path="/patient" element={<Patient />} />
     <Route path="/ticket-summary" element={<TicketSummary />} />
     {/* <Route path='/calendar' element={<CalendarComponent />} /> */}
-    <Route path="/test" element={<PatientQueueManagement />} />
+    <Route path="/display" element={<WaitingRoomDisplay />} />
   </Routes>
 </div>
 </div>
