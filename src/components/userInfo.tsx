@@ -15,6 +15,8 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
+  import PatientQueueManagement from './test';
+
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
@@ -122,14 +124,15 @@ const table = useReactTable({
 
   return (
     <>
+    <PatientQueueManagement />
 
-      <div className="mx-auto max-w-full px-0">
+    <div className="mx-auto max-w-full px-0">
         {status === 'pending' ? (
-          <p>Loading...</p>
+            <p>Loading...</p>
         ) : (
-          <div className="w-full">
-            <div className="flex flex-col items-center justify-center py-0">
-              <div className="rounded-md border">
+            <div className="w-full">
+                <div className="flex flex-col items-center justify-center py-0">
+                    <div className="rounded-md border">
               <div className="bg-gray-100 px-4 py-2 flex justify-between items-center">
               <div className="text-md font-bold">lineで発券済みの方の一覧</div>
                       <div className="text-md font-bold">{today}</div>
@@ -181,6 +184,7 @@ const table = useReactTable({
               summary
             </Button>
           </Link>
+
 
     </>
   );
