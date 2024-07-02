@@ -38,7 +38,7 @@ const PatientQueueManagement = () => {
     const { data, isLoading, error } = useQuery<QueueData, Error>({
       queryKey: ['queueData'],
       queryFn: fetchQueueData,
-      refetchInterval: 5000
+      refetchInterval: 2000
     });
 
   const queryClient = useQueryClient();
@@ -72,7 +72,7 @@ const PatientQueueManagement = () => {
   };
 
   return (
-    <div className="p-2 max-w-4xl mx-auto">
+    <div className="p-2 max-w-5xl mx-auto">
       <h2 className="text-xl font-bold mb-2">診療管理</h2>
       <div className="grid grid-cols-4 gap-2">
         <div className="bg-white p-2 rounded-lg shadow col-span-3">
