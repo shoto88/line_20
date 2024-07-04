@@ -158,12 +158,6 @@ const WaitingRoomDisplay = () => {
     }
   }
 
-  const getGridColumns = (count: number) => {
-    if (count <= 20) return 'grid-cols-5';
-    if (count <= 30) return 'grid-cols-6';
-    return 'grid-cols-7';
-  };
-
   return (
     <div className="flex flex-col min-h-screen">
       {/* ヘッダー */}
@@ -196,7 +190,7 @@ const WaitingRoomDisplay = () => {
               待ち番号一覧
             </span>
             <div className="w-full overflow-y-auto" style={{maxHeight: 'calc(100vh - 280px)'}}>
-              <div className={`grid ${getGridColumns(waitingCount)} gap-2`}>
+              <div className="grid grid-cols-5 gap-2">
                 {data?.queueStatus.filter(item => item.status === 0).map(item => (
                   <div key={item.number} className="aspect-square flex items-center justify-center bg-yellow-100 rounded-lg text-center text-3xl sm:text-4xl font-bold shadow">
                     {item.number}
@@ -209,7 +203,7 @@ const WaitingRoomDisplay = () => {
       </div>
 
       {/* フッター */}
-      <div className="text-center text-3xl font-bold my-2 pb-2">
+      <div className="text-center text-6xl font-bold my-2 pb-2">
         お待たせしてしまい申し訳ございません🙇‍♂️
       </div>
     </div>
