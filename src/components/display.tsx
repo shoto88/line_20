@@ -191,7 +191,7 @@ const WaitingRoomDisplay = () => {
             </h2>
             <div className="grid grid-cols-6 gap-4">
               {data?.queueStatus.filter(item => item.status === 0).slice(0, 20).map(item => (
-                <div key={item.number} className="w-46 h-46 flex items-center justify-center bg-yellow-100 rounded-lg m-1 shadow">
+                <div key={item.number} className="w-44 h-44 flex items-center justify-center bg-yellow-100 rounded-lg m-1 shadow">
                   <span className="text-8xl font-bold">
                     {item.number}
                   </span>
