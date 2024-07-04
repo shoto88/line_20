@@ -78,13 +78,13 @@ const WaitingRoomDisplay = () => {
         ) : (
           <>
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg p-8 md:p-12 shadow-md bg-red-100 w-full md:w-auto flex-grow">
-              <span className="text-center font-bold text-6xl md:text-8xl">
+              <span className="text-center font-bold text-5xl md:text-6xl">
                 現在の待ち組数
               </span>
               <span className="mt-8 text-[min(13vw,220px)] font-bold">{waitingCount}</span>
             </div>
             <div className="flex flex-col items-center justify-center gap-4 rounded-lg p-8 md:p-12 shadow-md bg-blue-100 w-full md:w-auto flex-grow">
-              <span className="text-center font-bold text-6xl md:text-8xl">
+              <span className="text-center font-bold text-5xl md:text-6xl">
                 待ち番号一覧
               </span>
               <div className="mt-8 w-full max-h-[50vh] overflow-y-auto">
@@ -100,7 +100,7 @@ const WaitingRoomDisplay = () => {
           </>
         )}
       </div>
-      <div className="text-center text-4xl font-bold mb-8">
+      <div className="text-center text-6xl font-bold mb-8">
       お待たせしてしまい申し訳ございません🙇‍♂️
       </div>
     </div>
