@@ -181,25 +181,26 @@ const WaitingRoomDisplay = () => {
       </div>
 
       {/* メインコンテンツ */}
-      <div className="flex-grow mt-32 p-8 flex flex-col items-center justify-center">
+      <div className="flex flex-col md:flex-row justify-center items-center gap-8 md:gap-44 p-8 md:p-16 flex-grow mt-32">
         {status === 'pending' ? (
           <p className="text-4xl">読み込み中...</p>
         ) : (
-          <div className="w-full max-w-7xl bg-blue-100 p-8 rounded-lg shadow-md">
-            <h2 className="text-6xl font-bold mb-8 text-center">待ち番号一覧</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-              {data?.queueStatus
-                .filter(item => item.status === 0)
-                .slice(0, 20)
-                .map(item => (
-                  <div key={item.number} className="aspect-square flex items-center justify-center bg-yellow-100 rounded-lg shadow-lg">
-                    <span className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw] font-bold">
+          <>
+            <div className="flex flex-col items-center justify-center gap-4 rounded-lg p-8 md:p-12 shadow-md bg-blue-100 w-full md:w-auto flex-grow">
+              <span className="text-center font-bold text-5xl md:text-6xl">
+                待ち番号一覧
+              </span>
+              <div className="mt-8 w-full max-h-[60vh] overflow-y-auto">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                  {data?.queueStatus.filter(item => item.status === 0).map(item => (
+                    <div key={item.number} className="aspect-square flex items-center justify-center bg-yellow-100 rounded-lg text-center text-5xl sm:text-6xl md:text-7xl font-bold shadow">
                       {item.number}
-                    </span>
-                  </div>
-                ))}
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
       </div>
 
