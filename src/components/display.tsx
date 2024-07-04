@@ -185,14 +185,15 @@ const WaitingRoomDisplay = () => {
         {status === 'pending' ? (
           <p className="text-4xl">読み込み中...</p>
         ) : (
-          <div className="w-full max-w-7xl">
-            <h2 className="text-5xl font-bold mb-8 text-center">待ち番号一覧</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+          <div className="w-full max-w-7xl bg-blue-100 p-8 rounded-lg shadow-md">
+            <h2 className="text-6xl font-bold mb-8 text-center">待ち番号一覧</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
               {data?.queueStatus
                 .filter(item => item.status === 0)
+                .slice(0, 20)
                 .map(item => (
                   <div key={item.number} className="aspect-square flex items-center justify-center bg-yellow-100 rounded-lg shadow-lg">
-                    <span className="text-[8vw] sm:text-[6vw] md:text-[5vw] lg:text-[4vw] xl:text-[3vw] font-bold">
+                    <span className="text-[10vw] sm:text-[8vw] md:text-[6vw] lg:text-[5vw] xl:text-[4vw] font-bold">
                       {item.number}
                     </span>
                   </div>
