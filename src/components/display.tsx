@@ -185,7 +185,7 @@ const WaitingRoomDisplay = () => {
         {status === 'pending' ? (
           <p className="text-3xl">読み込み中...</p>
         ) : (
-          <div className="w-full max-w-7xl bg-blue-100 rounded-lg p-6 shadow-lg">
+          <div className="w-full bg-blue-100 rounded-lg p-6 shadow-lg" style={{ maxWidth: '84rem' }}>
             <h2 className="text-center font-bold text-6xl mb-6">
               待ち番号一覧
             </h2>
