@@ -186,7 +186,7 @@ const WaitingRoomDisplay = () => {
           <p className="text-3xl">読み込み中...</p>
         ) : (
           <div className="flex flex-col items-center justify-center gap-2 rounded-lg p-4 shadow-md bg-blue-100 w-full max-w-8xl">
-            <span className="text-center font-bold text-4xl mb-2">
+            <span className="text-center font-bold text-5xl mb-2">
               待ち番号一覧
             </span>
             <div className="w-full overflow-y-auto" style={{maxHeight: 'calc(100vh - 280px)'}}>
