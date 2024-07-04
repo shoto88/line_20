@@ -88,9 +88,9 @@ const WaitingRoomDisplay = () => {
                 待ち番号一覧
               </span>
               <div className="mt-8 w-full max-h-[50vh] overflow-y-auto">
-                <div className="grid grid-cols-5 gap-4">
+                <div className="grid grid-cols-4 gap-4">
                   {data?.queueStatus.filter(item => item.status === 0).map(item => (
-                    <div key={item.number} className="p-3 bg-yellow-100 rounded-lg text-center text-4xl font-bold shadow">
+                    <div key={item.number} className="p-3 bg-yellow-100 rounded-lg text-center text-6xl font-bold shadow">
                       {item.number}
                     </div>
                   ))}
