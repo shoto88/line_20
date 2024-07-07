@@ -71,7 +71,7 @@ const Home = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="text-center">
-        <h1 className="text-6xl font-bold mb-12">大濠パーククリニック🏥</h1>
+        <h1 className="text-5xl font-bold text-pink-500 mb-12">大濠パーククリニック🏥</h1>
         <div className="grid grid-cols-2 gap-12">
           <Link to="/frontdesk">
             <Button className="w-72 h-36 text-4xl bg-blue-500 hover:bg-blue-600">
