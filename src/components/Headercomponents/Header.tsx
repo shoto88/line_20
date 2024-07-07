@@ -245,6 +245,7 @@ const Header: React.FC = () => {
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-8 rounded-md shadow-md">
         <h2 className="text-xl font-bold mb-4">データのリセット</h2>
+        <p className="mb-4">リセット前に集計ボタンを押してください🔘</p>
         <p className="mb-4">本当にデータをリセットしますか？この操作は取り消せません。</p>
         <div className="flex justify-end">
           <Button onClick={cancelReset} className="bg-gray-500 text-white hover:bg-gray-700 mr-2">キャンセル</Button>
