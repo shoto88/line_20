@@ -33,6 +33,7 @@ import {
 import { useState } from 'react';
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
+import PatientQueueManagement from './test';
 type Ticket = {
     ticket_number: number;
     name: string;
@@ -192,6 +193,7 @@ const table = useReactTable({
           </div>
         )}
       </div>
+      <PatientQueueManagement />
       <Link to="/ticket-summary">
             <Button variant="outline" className="ml-10 mt-20 text-blue-700 border-teal-700 hover:bg-teal-700 hover:text-white text-sm">
               summary
