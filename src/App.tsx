@@ -71,25 +71,25 @@ const Home = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="text-center">
-        <h1 className="text-4xl font-bold mb-8">大濠パーククリニック🏥</h1>
-        <div className="grid grid-cols-2 gap-8">
+        <h1 className="text-6xl font-bold mb-12">大濠パーククリニック🏥</h1>
+        <div className="grid grid-cols-2 gap-12">
           <Link to="/frontdesk">
-            <Button className="w-56 h-24 text-3xl bg-blue-500 hover:bg-blue-600">
+            <Button className="w-72 h-36 text-4xl bg-blue-500 hover:bg-blue-600">
               受付
             </Button>
           </Link>
           <Link to="/dashboard">
-            <Button className="w-56 h-24 text-3xl bg-green-500 hover:bg-green-600">
+            <Button className="w-72 h-36 text-4xl bg-green-500 hover:bg-green-600">
               診察室
             </Button>
           </Link>
           <Link to="/display">
-            <Button className="w-56 h-24 text-3xl bg-yellow-500 hover:bg-yellow-600">
+            <Button className="w-72 h-36 text-4xl bg-yellow-500 hover:bg-yellow-600">
               窓側モニター
             </Button>
           </Link>
           <Link to="/patient">
-            <Button className="w-56 h-24 text-3xl bg-purple-500 hover:bg-purple-600">
+            <Button className="w-72 h-36 text-4xl bg-purple-500 hover:bg-purple-600">
              受付横テレビ
             </Button>
           </Link>
