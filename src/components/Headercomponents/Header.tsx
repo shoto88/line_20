@@ -235,7 +235,7 @@ const Header: React.FC = () => {
         )}
           <Button>
             <Link to="/" className="text-2xl">
-              スタート画面
+              ホーム画面
             </Link>
           </Button>
         </div>
