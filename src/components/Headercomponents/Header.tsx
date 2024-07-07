@@ -234,8 +234,8 @@ const Header: React.FC = () => {
           </div>
         )}
           <Button>
-            <Link to="/patient" className="text-2xl">
-              モニター画面
+            <Link to="/" className="text-2xl">
+              スタート画面
             </Link>
           </Button>
         </div>

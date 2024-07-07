@@ -51,7 +51,7 @@ const Patient = () => {
           className="text-transparent bg-teal-200 hover:text-gray-800 focus:text-gray-800 focus:outline-none"
         >
           <Link to="/" className="text-2xl">
-            管理画面
+            スタート画面
           </Link>
         </Button>
       </div>

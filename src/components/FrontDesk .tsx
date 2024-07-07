@@ -1,3 +1,16 @@
+import React from 'react';
+
+import Treat from './treat';
+
+const FrontDesk = () => {
+  return (
+    <div>
+      <Treat />
+      <UserInfoWithoutPatientQueue />
+    </div>
+  );
+};
+
 'use client';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
@@ -15,7 +28,7 @@ import {
     TableHeader,
     TableRow,
   } from "@/components/ui/table";
-  import PatientQueueManagement from './test';
+
 
 import { useState } from 'react';
 import { Button } from './ui/button';
@@ -98,7 +111,7 @@ type Ticket = {
 
     
 
-const UserInfo = () => {
+const UserInfoWithoutPatientQueue = () => {
     const {data, status, error} = useQuery({
         queryKey: ['d1'],
         queryFn: async () => {
@@ -124,7 +137,7 @@ const table = useReactTable({
 
   return (
     <>
-    <PatientQueueManagement />
+
 
     <div className="mx-auto max-w-full px-0">
         {status === 'pending' ? (
@@ -193,18 +206,4 @@ const table = useReactTable({
     </>
   );
 };
-
-export default UserInfo;
-
-
-    // const handleSave = async () => {
-    //     // KVにデータを保存
-    //     await fetch('http://localhost:8787/api/kv', {
-    //       method: 'PUT',
-    //       body: JSON.stringify(data),
-    //     });
-    //   };
-    
-    //   interface Data {
-    //     waiting: number; // Adjust the type based on the actual data expected
-    //   }  
+export default FrontDesk;
