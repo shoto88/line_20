@@ -11,6 +11,8 @@ const Patient = () => {
       const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/api/treat`);
       return data;
     },
+      refetchInterval: 2000,
+  refetchIntervalInBackground: false, 
   });
 
   let diff = 0;
