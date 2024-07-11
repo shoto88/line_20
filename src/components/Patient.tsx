@@ -12,7 +12,6 @@ const Patient = () => {
       return data;
     },
       refetchInterval: 2000,
-  refetchIntervalInBackground: false, 
   });
 
   let diff = 0;
