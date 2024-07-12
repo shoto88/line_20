@@ -350,7 +350,7 @@ const UserInfoWithoutPatientQueue = () => {
   return (
     <>
 <Dialog open={showNotification} onOpenChange={setShowNotification}>
-    <DialogContent className="sm:max-w-[425px] bg-yellow-100 border-4 border-pink-300 shadow-lg">
+    <DialogContent className="sm:max-w-[425px] bg-yellow-100">
         <DialogHeader>
             <DialogTitle className="text-3xl font-bold text-green-600">新しい予約が入りました！</DialogTitle>
             <DialogDescription className="text-xl space-y-2 text-gray-700">
