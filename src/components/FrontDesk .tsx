@@ -385,7 +385,7 @@ const UserInfoWithoutPatientQueue = () => {
                                   <div className="text-md font-bold">lineで発券済みの方の一覧</div>
                                   <div className="text-md font-bold">{today}</div>
                               </div>
-                              <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
+                              <div className="grid grid-cols-2 md:grid-cols-3 gap-0 divide-x-[3px]">
                                   {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                                       <div key={i}>
                                           <Table className='w-full text-sm'>
