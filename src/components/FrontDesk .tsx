@@ -233,7 +233,14 @@ type Ticket = {
     examination_number: number | null;
     line_user_id: string;
 };
-
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
 const columnHelper = createColumnHelper<Ticket>();
 const columns = [
     columnHelper.accessor("ticket_number", {
@@ -316,7 +323,7 @@ const UserInfoWithoutPatientQueue = () => {
 
   useEffect(() => {
       if (data && prevDataRef.current.length < data.length) {
-          const newTickets = data.filter(ticket => 
+          const newTickets = data.filter((ticket: Ticket) => 
               !prevDataRef.current.some(prevTicket => prevTicket.ticket_number === ticket.ticket_number)
           );
           if (newTickets.length > 0) {
