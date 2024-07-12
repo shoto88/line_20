@@ -305,10 +305,10 @@ const highlightColors = [
   'bg-pink-200',
 ];
 
+
 const UserInfoWithoutPatientQueue = () => {
-  const prevDataRef = useRef<Ticket[]>([]);
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const [newDataIds, setNewDataIds] = useState<Set<number>>(new Set());
+  const prevDataLengthRef = useRef(0);
 
   const {data, status, error, isSuccess} = useQuery({
       queryKey: ['d1'],
@@ -322,19 +322,10 @@ const UserInfoWithoutPatientQueue = () => {
 
   useEffect(() => {
       if (isSuccess && data) {
-          const newIds = new Set<number>();
-          data.forEach((ticket: Ticket) => {
-              if (!prevDataRef.current.some(prevTicket => prevTicket.ticket_number === ticket.ticket_number)) {
-                  newIds.add(ticket.ticket_number);
-              }
-          });
-          
-          if (newIds.size > 0) {
+          if (data.length > prevDataLengthRef.current) {
               setCurrentColorIndex((prevIndex) => (prevIndex + 1) % highlightColors.length);
-              setNewDataIds(newIds);
           }
-          
-          prevDataRef.current = data;
+          prevDataLengthRef.current = data.length;
       }
   }, [isSuccess, data]);
 
@@ -348,8 +339,8 @@ const UserInfoWithoutPatientQueue = () => {
       getCoreRowModel: getCoreRowModel(),
   });
 
-  const getRowClassName = (row: Ticket) => {
-      if (newDataIds.has(row.ticket_number)) {
+  const getRowClassName = (index: number) => {
+      if (index >= prevDataLengthRef.current) {
           return highlightColors[currentColorIndex];
       }
       return '';
@@ -370,7 +361,7 @@ const UserInfoWithoutPatientQueue = () => {
                               <div className="text-md font-bold">lineで発券済みの方の一覧</div>
                               <div className="text-md font-bold">{today}</div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 divide-x-[3px]">
                               {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                                   <div key={i}>
                                       <Table className='w-full text-sm'>
@@ -391,9 +382,9 @@ const UserInfoWithoutPatientQueue = () => {
                                               ))}
                                           </TableHeader>
                                           <TableBody>
-                                              {table.getRowModel().rows.slice(i * 15, (i + 1) * 15).map((row) => (
+                                              {table.getRowModel().rows.slice(i * 15, (i + 1) * 15).map((row, index) => (
                                                   <TableRow 
-                                                      className={`h-6 ${getRowClassName(row.original)}`}
+                                                      className={`h-6 ${getRowClassName(i * 15 + index)}`}
                                                       key={row.id}
                                                   >
                                                       {row.getVisibleCells().map((cell) => (
@@ -422,6 +413,7 @@ const UserInfoWithoutPatientQueue = () => {
       </>
   );
 };
+
 
 const FrontDesk = () => {
   return (
