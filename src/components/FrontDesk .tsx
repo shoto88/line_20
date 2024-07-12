@@ -305,11 +305,10 @@ const highlightColors = [
   'bg-pink-200',
 ];
 
-
 const UserInfoWithoutPatientQueue = () => {
-  const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const [highlightedRows, setHighlightedRows] = useState<Set<number>>(new Set());
   const prevDataRef = useRef<Ticket[]>([]);
+  const [currentColorIndex, setCurrentColorIndex] = useState(0);
+  const [newDataIds, setNewDataIds] = useState<Set<number>>(new Set());
 
   const {data, status, error, isSuccess} = useQuery({
       queryKey: ['d1'],
@@ -323,21 +322,18 @@ const UserInfoWithoutPatientQueue = () => {
 
   useEffect(() => {
       if (isSuccess && data) {
-          const newHighlightedRows = new Set(highlightedRows);
-          let newDataAdded = false;
-
-          data.forEach((ticket: Ticket, index: number) => {
+          const newIds = new Set<number>();
+          data.forEach((ticket: Ticket) => {
               if (!prevDataRef.current.some(prevTicket => prevTicket.ticket_number === ticket.ticket_number)) {
-                  newHighlightedRows.add(index);
-                  newDataAdded = true;
+                  newIds.add(ticket.ticket_number);
               }
           });
-
-          if (newDataAdded) {
+          
+          if (newIds.size > 0) {
               setCurrentColorIndex((prevIndex) => (prevIndex + 1) % highlightColors.length);
-              setHighlightedRows(newHighlightedRows);
+              setNewDataIds(newIds);
           }
-
+          
           prevDataRef.current = data;
       }
   }, [isSuccess, data]);
@@ -352,8 +348,8 @@ const UserInfoWithoutPatientQueue = () => {
       getCoreRowModel: getCoreRowModel(),
   });
 
-  const getRowClassName = (index: number) => {
-      if (highlightedRows.has(index)) {
+  const getRowClassName = (row: Ticket) => {
+      if (newDataIds.has(row.ticket_number)) {
           return highlightColors[currentColorIndex];
       }
       return '';
@@ -374,7 +370,7 @@ const UserInfoWithoutPatientQueue = () => {
                               <div className="text-md font-bold">lineで発券済みの方の一覧</div>
                               <div className="text-md font-bold">{today}</div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
+                          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 divide-x-[3px]">
                               {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                                   <div key={i}>
                                       <Table className='w-full text-sm'>
@@ -395,9 +391,9 @@ const UserInfoWithoutPatientQueue = () => {
                                               ))}
                                           </TableHeader>
                                           <TableBody>
-                                              {table.getRowModel().rows.slice(i * 15, (i + 1) * 15).map((row, index) => (
+                                              {table.getRowModel().rows.slice(i * 15, (i + 1) * 15).map((row) => (
                                                   <TableRow 
-                                                      className={`h-6 ${getRowClassName(i * 15 + index)}`}
+                                                      className={`h-6 ${getRowClassName(row.original)}`}
                                                       key={row.id}
                                                   >
                                                       {row.getVisibleCells().map((cell) => (
@@ -426,7 +422,6 @@ const UserInfoWithoutPatientQueue = () => {
       </>
   );
 };
-
 
 const FrontDesk = () => {
   return (
