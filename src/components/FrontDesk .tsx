@@ -308,7 +308,8 @@ const highlightColors = [
 
 const UserInfoWithoutPatientQueue = () => {
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
-  const prevDataLengthRef = useRef(0);
+  const [highlightedRows, setHighlightedRows] = useState<Set<number>>(new Set());
+  const prevDataRef = useRef<Ticket[]>([]);
 
   const {data, status, error, isSuccess} = useQuery({
       queryKey: ['d1'],
@@ -322,10 +323,22 @@ const UserInfoWithoutPatientQueue = () => {
 
   useEffect(() => {
       if (isSuccess && data) {
-          if (data.length > prevDataLengthRef.current) {
+          const newHighlightedRows = new Set(highlightedRows);
+          let newDataAdded = false;
+
+          data.forEach((ticket: Ticket, index: number) => {
+              if (!prevDataRef.current.some(prevTicket => prevTicket.ticket_number === ticket.ticket_number)) {
+                  newHighlightedRows.add(index);
+                  newDataAdded = true;
+              }
+          });
+
+          if (newDataAdded) {
               setCurrentColorIndex((prevIndex) => (prevIndex + 1) % highlightColors.length);
+              setHighlightedRows(newHighlightedRows);
           }
-          prevDataLengthRef.current = data.length;
+
+          prevDataRef.current = data;
       }
   }, [isSuccess, data]);
 
@@ -340,7 +353,7 @@ const UserInfoWithoutPatientQueue = () => {
   });
 
   const getRowClassName = (index: number) => {
-      if (index >= prevDataLengthRef.current) {
+      if (highlightedRows.has(index)) {
           return highlightColors[currentColorIndex];
       }
       return '';
@@ -361,7 +374,7 @@ const UserInfoWithoutPatientQueue = () => {
                               <div className="text-md font-bold">lineで発券済みの方の一覧</div>
                               <div className="text-md font-bold">{today}</div>
                           </div>
-                          <div className="grid grid-cols-2 md:grid-cols-3 gap-0 divide-x-[3px]">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
                               {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                                   <div key={i}>
                                       <Table className='w-full text-sm'>
