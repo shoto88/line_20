@@ -324,7 +324,7 @@ const UserInfoWithoutPatientQueue = () => {
   useEffect(() => {
       if (data && prevDataRef.current.length < data.length) {
           const newTickets = data.filter((ticket: Ticket) => 
-              !prevDataRef.current.some(prevTicket => prevTicket.ticket_number === ticket.ticket_number)
+              !prevDataRef.current.some((prevTicket: Ticket) => prevTicket.ticket_number === ticket.ticket_number)
           );
           if (newTickets.length > 0) {
               setNewTicket(newTickets[0]);
@@ -333,6 +333,7 @@ const UserInfoWithoutPatientQueue = () => {
       }
       prevDataRef.current = data || [];
   }, [data]);
+
 
   if (error) {
       return <div>エラーが発生しました</div>;
@@ -347,27 +348,33 @@ const UserInfoWithoutPatientQueue = () => {
   const today = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
-      <>
-          <Dialog open={showNotification} onOpenChange={setShowNotification}>
-              <DialogContent>
-                  <DialogHeader>
-                      <DialogTitle>新しい予約が入りました</DialogTitle>
-                      <DialogDescription>
-                          {newTicket && (
-                              <>
-                                  <p>発券番号: {newTicket.ticket_number}</p>
-                                  <p>名前: {newTicket.name}</p>
-                                  <p>時間: {new Date(newTicket.time).toLocaleString()}</p>
-                              </>
-                          )}
-                      </DialogDescription>
-                  </DialogHeader>
-                  <DialogFooter>
-                      <Button onClick={() => setShowNotification(false)}>OK</Button>
-                  </DialogFooter>
-              </DialogContent>
-          </Dialog>
-
+    <>
+        <Dialog open={showNotification} onOpenChange={setShowNotification}>
+            <DialogContent className="sm:max-w-[425px] bg-blue-100 border-4 border-blue-500">
+                <DialogHeader>
+                    <DialogTitle className="text-3xl font-bold text-blue-700">新しい予約が入りました！</DialogTitle>
+                    <DialogDescription className="text-xl text-black">
+                        {newTicket && (
+                            <>
+                                <p className="mt-4"><span className="font-semibold">発券番号:</span> {newTicket.ticket_number}</p>
+                                <p><span className="font-semibold">名前:</span> {newTicket.name}</p>
+                                <p><span className="font-semibold">時間:</span> {new Date(newTicket.time).toLocaleString()}</p>
+                                <p><span className="font-semibold">診察券番号:</span> {
+                                    newTicket.examination_number !== null
+                                        ? newTicket.examination_number
+                                        : <span className="text-red-500">登録されていません</span>
+                                }</p>
+                            </>
+                        )}
+                    </DialogDescription>
+                </DialogHeader>
+                <DialogFooter>
+                    <Button onClick={() => setShowNotification(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-lg">
+                        OK
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
           <div className="mx-auto max-w-full px-0">
               {status === 'pending' ? (
                   <p>Loading...</p>
