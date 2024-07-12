@@ -352,8 +352,8 @@ const UserInfoWithoutPatientQueue = () => {
 <Dialog open={showNotification} onOpenChange={setShowNotification}>
     <DialogContent className="sm:max-w-[425px] bg-yellow-100">
         <DialogHeader>
-            <DialogTitle className="text-3xl font-bold text-green-600">新しい予約が入りました！</DialogTitle>
-            <DialogDescription className='text-base font-bold text-red-100'> ※ 画面をリロードした際の表示の場合は、こちらのメッセージは無視してください。</DialogDescription>
+            <DialogTitle className="text-3xl font-bold text-black">新しい予約が入りました！</DialogTitle>
+            <DialogDescription className='text-lg font-bold text-red-100'> ※ 画面をリロードした際の表示の場合は、<br />こちらのメッセージは無視してください。</DialogDescription>
             <DialogDescription className="text-xl space-y-2 text-gray-700">
                 {newTicket && (
                     <>
