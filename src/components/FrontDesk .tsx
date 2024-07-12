@@ -358,7 +358,6 @@ const UserInfoWithoutPatientQueue = () => {
                             <>
                                 <p className="mt-4"><span className="font-semibold">発券番号:</span> {newTicket.ticket_number}</p>
                                 <p><span className="font-semibold">名前:</span> {newTicket.name}</p>
-                                <p><span className="font-semibold">時間:</span> {new Date(newTicket.time).toLocaleString()}</p>
                                 <p><span className="font-semibold">診察券番号:</span> {
                                     newTicket.examination_number !== null
                                         ? newTicket.examination_number
