@@ -349,31 +349,31 @@ const UserInfoWithoutPatientQueue = () => {
 
   return (
     <>
-        <Dialog open={showNotification} onOpenChange={setShowNotification}>
-            <DialogContent className="sm:max-w-[425px] bg-pink-100 border-4 border-red-300">
-                <DialogHeader>
-                    <DialogTitle className="text-3xl font-bold text-muted-foreground">新しい予約が入りました！</DialogTitle>
-                    <DialogDescription className="text-2xl leading-8 text-black">
-                        {newTicket && (
-                            <>
-                                <p className="mt-4"><span className="font-semibold">発券番号:</span> {newTicket.ticket_number}</p>
-                                <p><span className="font-semibold">名前:</span> {newTicket.name}</p>
-                                <p><span className="font-semibold">診察券番号:</span> {
-                                    newTicket.examination_number !== null
-                                        ? newTicket.examination_number
-                                        : <span className="text-red-500">登録されていません</span>
-                                }</p>
-                            </>
-                        )}
-                    </DialogDescription>
-                </DialogHeader>
-                <DialogFooter>
-                    <Button onClick={() => setShowNotification(false)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-lg">
-                        OK
-                    </Button>
-                </DialogFooter>
-            </DialogContent>
-        </Dialog>
+<Dialog open={showNotification} onOpenChange={setShowNotification}>
+    <DialogContent className="sm:max-w-[425px] bg-yellow-100 border-4 border-pink-300 shadow-lg">
+        <DialogHeader>
+            <DialogTitle className="text-3xl font-bold text-green-600">新しい予約が入りました！</DialogTitle>
+            <DialogDescription className="text-xl space-y-2 text-gray-700">
+                {newTicket && (
+                    <>
+                        <p className="mt-4"><span className="font-semibold text-pink-600">発券番号:</span> {newTicket.ticket_number}</p>
+                        <p><span className="font-semibold text-pink-600">名前:</span> {newTicket.name}</p>
+                        <p><span className="font-semibold text-pink-600">診察券番号:</span> {
+                            newTicket.examination_number !== null
+                                ? newTicket.examination_number
+                                : <span className="text-red-500 font-medium">登録されていません</span>
+                        }</p>
+                    </>
+                )}
+            </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+            <Button onClick={() => setShowNotification(false)} className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg text-lg transition-colors duration-200">
+                OK
+            </Button>
+        </DialogFooter>
+    </DialogContent>
+</Dialog>
           <div className="mx-auto max-w-full px-0">
               {status === 'pending' ? (
                   <p>Loading...</p>
