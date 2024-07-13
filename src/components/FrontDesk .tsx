@@ -294,7 +294,7 @@ const columns = [
                     type="number"
                     value={inputValue}
                     onChange={handleInputChange}
-                    className="w-14"
+                    className="w-16"
                   />
                   <Button onClick={handleSaveClick} disabled={isPending} className='w-10 bg-blue-300 h-6 text-white'>
                     {isPending ? '保存中...' : '登録'}
