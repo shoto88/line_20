@@ -372,7 +372,7 @@ const UserInfoWithoutPatientQueue = () => {
                 )}
             </DialogDescription>
         </div>
-        <DialogFooter>
+        <DialogFooter className='m-4'>
             <Button onClick={() => setShowNotification(false)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md text-lg transition-colors duration-200">
                 OK
             </Button>
