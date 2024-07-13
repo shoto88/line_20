@@ -354,8 +354,8 @@ const UserInfoWithoutPatientQueue = () => {
         <div className="bg-blue-600 p-4">
             <DialogTitle className="text-2xl font-bold text-white">新しい予約が入りました！</DialogTitle>
         </div>
-        <div className="p-6">
-            <DialogDescription className='text-sm font-medium text-yellow-600 mb-4'>
+        <div className="p-4">
+            <DialogDescription className='text-sm font-medium text-red-500 mt-0 mb-4'>
                 ※ 画面をリロードした際の表示の場合は、<br />こちらのメッセージは無視してください。
             </DialogDescription>
             <DialogDescription className="text-lg space-y-2 text-gray-700">
@@ -372,7 +372,7 @@ const UserInfoWithoutPatientQueue = () => {
                 )}
             </DialogDescription>
         </div>
-        <DialogFooter className="bg-gray-100 px-6 py-4">
+        <DialogFooter>
             <Button onClick={() => setShowNotification(false)} className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-md text-lg transition-colors duration-200">
                 OK
             </Button>
