@@ -355,7 +355,7 @@ const UserInfoWithoutPatientQueue = () => {
             <DialogTitle className="text-2xl font-bold text-white">新しい予約が入りました！</DialogTitle>
         </div>
         <div className="p-4">
-            <DialogDescription className='text-sm font-medium text-red-500 mt-0 mb-4'>
+            <DialogDescription className='text-md font-medium text-red-500 mt-0 mb-4'>
                 ※ 画面をリロードした際の表示の場合は、<br />こちらのメッセージは無視してください。
             </DialogDescription>
             <DialogDescription className="text-lg space-y-2 text-gray-700">
