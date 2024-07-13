@@ -79,7 +79,7 @@ type Ticket = {
           
     
               return (
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-1 space-x-2">
                   <input
                     type="number"
                     value={inputValue}
