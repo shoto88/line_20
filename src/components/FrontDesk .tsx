@@ -350,7 +350,10 @@ const UserInfoWithoutPatientQueue = () => {
   return (
     <>
 <Dialog open={showNotification} onOpenChange={setShowNotification}>
-    <DialogContent className="sm:max-w-[425px] bg-white p-0 overflow-hidden">
+<DialogContent 
+        className="sm:max-w-[425px] bg-white p-0 overflow-hidden"
+        onInteractOutside={(e) => { e.preventDefault(); }}
+    >
         <div className="bg-blue-600 p-4">
             <DialogTitle className="text-2xl font-bold text-white">新しい予約が入りました！</DialogTitle>
         </div>
