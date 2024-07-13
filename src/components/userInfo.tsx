@@ -84,7 +84,7 @@ type Ticket = {
                     type="number"
                     value={inputValue}
                     onChange={handleInputChange}
-                    className="w-14"
+                    className="w-16"
                   />
                   <Button onClick={handleSaveClick} disabled={isPending} className='w-10 bg-blue-300 h-6 text-white'>
                     {isPending ? '保存中...' : '登録'}
@@ -138,7 +138,7 @@ const table = useReactTable({
                       <div className="text-md font-bold">{today}</div>
   
                     </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-0 divide-x-[3px]">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-0 divide-x-[3px]">
                   {Array.from({ length: Math.ceil(table.getRowModel().rows.length / 15) }, (_, i) => (
                     <div key={i}>
                       <Table className='w-full text-sm'>
