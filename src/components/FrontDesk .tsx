@@ -320,7 +320,7 @@ const UserInfoWithoutPatientQueue = () => {
       },
       refetchInterval: 2000,
   });
-
+  const lineIssuedNumbers = data ? data.map((ticket: Ticket) => ticket.ticket_number) : [];
   useEffect(() => {
       if (data && prevDataRef.current.length < data.length) {
           const newTickets = data.filter((ticket: Ticket) => 
@@ -433,7 +433,7 @@ const UserInfoWithoutPatientQueue = () => {
                   </div>
               )}
           </div>
-          <PatientQueueManagement />
+          <PatientQueueManagement lineIssuedNumbers={lineIssuedNumbers} />
           <Link to="/ticket-summary">
               <Button variant="outline" className="ml-10 mt-20 text-blue-700 border-teal-700 hover:bg-teal-700 hover:text-white text-sm">
                   summary
