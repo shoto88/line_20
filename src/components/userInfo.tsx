@@ -98,33 +98,33 @@ type Ticket = {
 
     
 
-const UserInfo = () => {
-    const {data, status, error} = useQuery({
-        queryKey: ['d1'],
-        queryFn: async () => {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/lineinfo`);
-            console.log("Fetched data:", response.data);
-            return response.data;
-        },
-            refetchInterval: 2000, 
-    });
+        const UserInfo = () => {
+          const {data, status, error} = useQuery<Ticket[]>({
+              queryKey: ['d1'],
+              queryFn: async () => {
+                  const response = await axios.get<Ticket[]>(`${import.meta.env.VITE_API_URL}/api/lineinfo`);
+                  console.log("Fetched data:", response.data);
+                  return response.data;
+              },
+              refetchInterval: 2000, 
+          });
 if (error) {
    <div>エラーが発生しました</div>
 }
 
 
+const lineIssuedNumbers = data ? data.map(ticket => ticket.ticket_number) : [];
 const table = useReactTable({
-    data,
+    data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
-
-  });
+});
   const today = new Date().toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' });
     
 
   return (
     <>
-    <PatientQueueManagement />
+      <PatientQueueManagement lineIssuedNumbers={lineIssuedNumbers} />
 
     <div className="mx-auto max-w-full px-0">
         {status === 'pending' ? (
