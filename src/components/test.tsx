@@ -96,7 +96,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
                 // 変更: 条件付きクラス名の適用
                 className={`p-1 rounded text-xs ${
                   status === 1 ? 'bg-green-200' :
-                  lineIssuedNumbers.includes(number) ? 'bg-fuchsia-300' : 'bg-gray-200'
+                  lineIssuedNumbers.includes(number) ? 'bg-violet-300' : 'bg-gray-200'
                 }`}
               >
                 {status === 1 ? (
@@ -130,7 +130,8 @@ const RemainingNumbersDisplay: React.FC<RemainingNumbersDisplayProps> = ({ numbe
           key={num}
           // 変更: 条件付きクラス名の適用
           className={`p-1 rounded text-center text-base ${
-            lineIssuedNumbers.includes(num) ? 'bg-fuchsia-300' : 'bg-yellow-100'
+            lineIssuedNumbers.includes(num) ? 'bg-violet-300' : 'bg-yellow
+            -100'
           }`}
         >
           {num}
