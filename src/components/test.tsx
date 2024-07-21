@@ -130,8 +130,7 @@ const RemainingNumbersDisplay: React.FC<RemainingNumbersDisplayProps> = ({ numbe
           key={num}
           // 変更: 条件付きクラス名の適用
           className={`p-1 rounded text-center text-base ${
-            lineIssuedNumbers.includes(num) ? 'bg-violet-300' : 'bg-yellow
-            -100'
+            lineIssuedNumbers.includes(num) ? 'bg-violet-300' : 'bg-yellow-100'
           }`}
         >
           {num}
