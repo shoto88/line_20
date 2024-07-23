@@ -72,7 +72,7 @@ const Patient = () => {
                 maxWidth: '100%',
                 lineHeight: '1.2',
               }}>
-                {key === 'waiting' ? '発券済番号' : '診療中番号'}
+                {key === 'waiting' ? '発券済番号' : '診療済み人数'}
               </span>
               <span className="mt-14 text-[min(13vw,220px)] font-bold">{String(value)}</span>
             </div>

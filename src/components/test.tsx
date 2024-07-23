@@ -80,7 +80,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
         <div className="bg-white p-2 rounded-lg shadow col-span-3">
           <div className="flex mb-2 text-sm">
             <div>
-              <span className="font-bold">待ち人数: </span>
+              <span className="font-bold">発券済み人数: </span>
               <span className="text-lg text-blue-600">{waiting}</span>
             </div>
             <div>

@@ -50,7 +50,7 @@ const treatmentMutation = useMutation<void, unknown, string>({
             }`}
           >
             <span className="text-xl font-bold">
-              {key === 'waiting' ? '発券済み番号' : '診療中番号'}
+              {key === 'waiting' ? '発券済み番号' : '診療済み人数'}
             </span>
             <div className="flex items-center justify-center">
               <button
