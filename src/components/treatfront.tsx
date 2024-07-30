@@ -19,14 +19,14 @@ const TreatFront = () => {
 
 
 // treatment の値を更新する useMutation
-const treatmentMutation = useMutation<void, unknown, string>({
-  mutationFn: async (action) => {
-    await axios.put(`${import.meta.env.VITE_API_URL}/api/treat/treatment/${action}`);
-  },
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['treatData'] });
-  },
-});
+// const treatmentMutation = useMutation<void, unknown, string>({
+//   mutationFn: async (action) => {
+//     await axios.put(`${import.meta.env.VITE_API_URL}/api/treat/treatment/${action}`);
+//   },
+//   onSuccess: () => {
+//     queryClient.invalidateQueries({ queryKey: ['treatData'] });
+//   },
+// });
 
 // 
 
