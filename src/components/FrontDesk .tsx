@@ -224,7 +224,7 @@ import {
 import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import PatientQueueManagement from './test';
-import Treat from './treat';
+import TreatFront from './treatfront';
 
 type Ticket = {
     ticket_number: number;
@@ -446,7 +446,7 @@ const UserInfoWithoutPatientQueue = () => {
 const FrontDesk = () => {
   return (
       <div>
-          <Treat />
+          <TreatFront />
           <UserInfoWithoutPatientQueue />
       </div>
   );
