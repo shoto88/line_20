@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { CheckSquare, Square } from 'lucide-react';
@@ -32,41 +32,58 @@ const fetchQueueData = async () => {
 };
 
 const updateQueueStatus = async ({ number, status }: { number: number; status: number }) => {
-  await axios.put(`${import.meta.env.VITE_API_URL}/api/queue-status/${number}`, { status });
-};
-
-const updateTreatment = async (action: 'increment' | 'decrement') => {
-  await axios.put(`${import.meta.env.VITE_API_URL}/api/treat/treatment/${action}`);
+  const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/queue-status/${number}`, { status });
+  return response.data;
 };
 
 const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo(({ lineIssuedNumbers }) => {
-    const { data, isLoading, error } = useQuery<QueueData, Error>({
-      queryKey: ['queueData'],
-      queryFn: fetchQueueData,
-      refetchInterval: 2000
-    });
+  const [localTreatment, setLocalTreatment] = useState(0);
+  const { data, isLoading, error } = useQuery<QueueData, Error>({
+    queryKey: ['queueData'],
+    queryFn: fetchQueueData,
+    refetchInterval: 2000
+  });
 
   const queryClient = useQueryClient();
 
   const updateMutation = useMutation({
     mutationFn: updateQueueStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['queueData'] });
-    }
-  });
+    onMutate: async (newStatus) => {
+      await queryClient.cancelQueries({ queryKey: ['queueData'] });
+      const previousData = queryClient.getQueryData<QueueData>(['queueData']);
 
-  const treatmentMutation = useMutation({
-    mutationFn: updateTreatment,
-    onSuccess: () => {
+      if (previousData) {
+        const newData = {
+          ...previousData,
+          queueStatus: previousData.queueStatus.map(item =>
+            item.number === newStatus.number ? { ...item, status: newStatus.status } : item
+          ),
+        };
+        queryClient.setQueryData(['queueData'], newData);
+      }
+
+      setLocalTreatment(prev => prev + (newStatus.status === 1 ? 1 : -1));
+
+      return { previousData };
+    },
+    onError: (err, newStatus, context) => {
+      if (context?.previousData) {
+        queryClient.setQueryData(['queueData'], context.previousData);
+      }
+      setLocalTreatment(prev => prev - (newStatus.status === 1 ? 1 : -1));
+    },
+    onSettled: (data) => {
       queryClient.invalidateQueries({ queryKey: ['queueData'] });
-    }
+      if (data && data.checkedCount !== undefined) {
+        setLocalTreatment(data.checkedCount);
+      }
+    },
   });
 
   const handleCheck = useCallback((number: number, currentStatus: number) => {
     const newStatus = currentStatus === 1 ? 0 : 1;
     updateMutation.mutate({ number, status: newStatus });
-    treatmentMutation.mutate(newStatus === 1 ? 'increment' : 'decrement');
-  }, [updateMutation, treatmentMutation]);
+  }, [updateMutation]);
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>エラーが発生しました: {error.message}</div>;
@@ -74,7 +91,6 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
 
   const { treatData, queueStatus } = data;
   const waiting = treatData.waiting;
-  const treatment = treatData.treatment;
 
   return (
     <div className="p-2 max-w-6xl mx-auto">
@@ -88,7 +104,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
             </div>
             <div>
               <span className="font-bold ml-4">診療済み: </span>
-              <span className="text-lg text-green-600">{treatment}</span>
+              <span className="text-lg text-green-600">{localTreatment}</span>
             </div>
           </div>
           <QueueStatusGrid
