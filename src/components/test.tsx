@@ -50,7 +50,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
         debounce(async () => {
           await updateQueueStatus(params);
           resolve();
-        }, 300)();
+        }, 3000)();
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['queueData'] });
@@ -62,7 +62,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
       new Promise<void>((resolve) => {
         debounce(() => {
           updateTreatment(action).then(resolve);
-        }, 300)();
+        }, 3000)();
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['queueData'] });
