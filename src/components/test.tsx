@@ -1,5 +1,5 @@
 'use client'
-import { debounce } from 'lodash';
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { CheckSquare, Square } from 'lucide-react';
@@ -44,26 +44,16 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
     });
 
   const queryClient = useQueryClient();
-  const debouncedUpdateMutation = useMutation({
-    mutationFn: (params: { number: number; status: number }) => 
-      new Promise<void>((resolve) => {
-        debounce(async () => {
-          await updateQueueStatus(params);
-          resolve();
-        }, 3000)();
-      }),
+
+  const updateMutation = useMutation({
+    mutationFn: updateQueueStatus,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['queueData'] });
     }
   });
 
-  const debouncedTreatmentMutation = useMutation({
-    mutationFn: (action: 'increment' | 'decrement') => 
-      new Promise<void>((resolve) => {
-        debounce(() => {
-          updateTreatment(action).then(resolve);
-        }, 3000)();
-      }),
+  const treatmentMutation = useMutation({
+    mutationFn: updateTreatment,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['queueData'] });
     }
@@ -79,8 +69,8 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = ({ lineIss
 
   const handleCheck = (number: number, currentStatus: number) => {
     const newStatus = currentStatus === 1 ? 0 : 1;
-    debouncedUpdateMutation.mutate({ number, status: newStatus });
-    debouncedTreatmentMutation.mutate(newStatus === 1 ? 'increment' : 'decrement');
+    updateMutation.mutate({ number, status: newStatus });
+    treatmentMutation.mutate(newStatus === 1 ? 'increment' : 'decrement');
   };
 
   return (
