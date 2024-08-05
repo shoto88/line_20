@@ -66,7 +66,7 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
 
       return { previousData };
     },
-    onError: (err, newStatus, context) => {
+    onError: (_, newStatus, context) => {
       if (context?.previousData) {
         queryClient.setQueryData(['queueData'], context.previousData);
       }
