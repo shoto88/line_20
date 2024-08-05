@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { CheckSquare, Square } from 'lucide-react';
@@ -47,7 +47,6 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
     });
 
   const queryClient = useQueryClient();
-  const latestStatusRef = useRef<{ [key: number]: number }>({});
 
   const updateMutation = useMutation({
     mutationFn: updateQueueStatus,
@@ -64,18 +63,9 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
   });
 
   const handleCheck = useCallback((number: number, currentStatus: number) => {
-    const latestStatus = latestStatusRef.current[number] ?? currentStatus;
-    const newStatus = latestStatus === 1 ? 0 : 1;
-    
-    // Update the ref immediately
-    latestStatusRef.current[number] = newStatus;
-
+    const newStatus = currentStatus === 1 ? 0 : 1;
     updateMutation.mutate({ number, status: newStatus });
-
-    // Only update treatment count if status is changing from 0 to 1
-    if (latestStatus === 0 && newStatus === 1) {
-      treatmentMutation.mutate('increment');
-    }
+    treatmentMutation.mutate(newStatus === 1 ? 'increment' : 'decrement');
   }, [updateMutation, treatmentMutation]);
 
   if (isLoading) return <div>Loading...</div>;
@@ -85,11 +75,6 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
   const { treatData, queueStatus } = data;
   const waiting = treatData.waiting;
   const treatment = treatData.treatment;
-
-  // Update the ref with the latest data
-  queueStatus.forEach(item => {
-    latestStatusRef.current[item.number] = item.status;
-  });
 
   return (
     <div className="p-2 max-w-6xl mx-auto">
@@ -121,7 +106,6 @@ const PatientQueueManagement: React.FC<PatientQueueManagementProps> = React.memo
   );
 });
 
-// QueueStatusGrid and QueueStatusButton components remain the same
 const QueueStatusGrid: React.FC<{
   queueStatus: Array<{ number: number; status: number }>;
   lineIssuedNumbers: number[];
@@ -162,7 +146,6 @@ const QueueStatusButton: React.FC<{
   </button>
 ));
 
-// RemainingNumbersDisplay component remains the same
 interface RemainingNumbersDisplayProps {
   numbers: number[];
   lineIssuedNumbers: number[];
