@@ -12,13 +12,12 @@ const MessageComponent: React.FC = () => {
 
       const isWeekday = dayOfWeek >= 1 && dayOfWeek <= 5;
       const targetTimes = isWeekday
-        ? [
-            { hour: 10, minute: 20 },
-            { hour: 12, minute: 0 },
-            { hour: 14, minute: 20 },
-            { hour: 18, minute: 0 },
-          ]
-        : [{ hour: 10, minute: 20 }, { hour: 14, minute: 40 }];
+      ? [
+        { hour: 12, minute: 20 },
+        { hour: 13, minute: 20 },
+        { hour: 18, minute: 20 },
+      ]
+    : [{ hour: 14, minute: 40 }];
 
       const shouldShowMessage = targetTimes.some(
         (time) => time.hour === hour && time.minute === minute
