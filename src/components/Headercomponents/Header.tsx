@@ -21,22 +21,22 @@ const Header: React.FC = () => {
   const queryClient = useQueryClient(); 
   let emoji = '😐'; // デフォルトの絵文字
   let diff = 0;
-  if (status === 'success' && data.waiting && data.treatment) { // data.waiting と data.treatment が存在する場合のみ
-    const waitingValue = data.waiting;
-    const treatmentValue = data.treatment;
-    diff = Math.abs(waitingValue - treatmentValue);
-    console.log(diff)
+if (status === 'success' && typeof data.waiting === 'number' && typeof data.treatment === 'number') {
+  const waitingValue = data.waiting;
+  const treatmentValue = data.treatment;
+  diff = Math.abs(waitingValue - treatmentValue);
+  console.log(diff)
 
-    if (diff <= 5) {
-      emoji = '😊';
-    } else if (diff <= 10) {
-      emoji = '😥';
-    } else if (diff <= 15) {
-      emoji = '😱';
-    }else{
-      emoji = '😭';
-    }
+  if (diff <= 5) {
+    emoji = '😊';
+  } else if (diff <= 10) {
+    emoji = '😥';
+  } else if (diff <= 15) {
+    emoji = '😱';
+  } else {
+    emoji = '😭';
   }
+}
   const summarizeMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ticket-summary`);
@@ -242,18 +242,34 @@ const Header: React.FC = () => {
     </div>
   {/* 削除確認ダイアログ */}
   {showResetConfirmation && (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-      <div className="bg-white p-8 rounded-md shadow-md">
-        <h2 className="text-xl font-bold mb-4">データのリセット</h2>
-        <p className="mb-4">リセット前に集計ボタンを押してください🔘</p>
-        <p className="mb-4">本当にデータをリセットしますか？この操作は取り消せません。</p>
-        <div className="flex justify-end">
-          <Button onClick={cancelReset} className="bg-gray-500 text-white hover:bg-gray-700 mr-2">キャンセル</Button>
-          <Button onClick={confirmReset} className="bg-red-500 text-white hover:bg-red-700">リセット</Button>
-        </div>
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+    <div className="bg-white p-8 rounded-md shadow-md relative">
+      <h2 className="text-xl font-bold mb-4">データのリセット</h2>
+      <p className="mb-4">リセット前に集計ボタンを押してください🔘</p>
+      <p className="mb-4">本当にデータをリセットしますか？この操作は取り消せません。</p>
+      <div className="flex justify-end">
+        <Button 
+          onClick={(e) => {
+            e.stopPropagation();
+            cancelReset();
+          }} 
+          className="bg-gray-500 text-white hover:bg-gray-700 mr-2"
+        >
+          キャンセル
+        </Button>
+        <Button 
+          onClick={(e) => {
+            e.stopPropagation();
+            confirmReset();
+          }} 
+          className="bg-red-500 text-white hover:bg-red-700"
+        >
+          リセット
+        </Button>
       </div>
     </div>
-  )}
+  </div>
+)}
 </>
   );
 };
