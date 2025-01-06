@@ -66,7 +66,16 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
 
   const systemStatusMutation = useMutation<{ value: number }, unknown, void>({
     mutationFn: async () => {
-      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/status`);
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/status`,
+        null, // PUTの場合、送信データがなければ null または {} などを指定
+        {
+          headers: {
+            // Bearer トークンの形で API Key を付与
+            Authorization: `Bearer ${import.meta.env.AUTH_KEY}`,
+          },
+        },
+      );
       return response.data;
     },
     onSuccess: (data) => {
