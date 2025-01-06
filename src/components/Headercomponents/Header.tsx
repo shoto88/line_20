@@ -76,6 +76,7 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
           },
         },
       );
+      console.log(import.meta.env.AUTH_KEY)
       return response.data;
     },
     onSuccess: (data) => {
