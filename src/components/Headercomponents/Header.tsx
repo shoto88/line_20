@@ -1,5 +1,3 @@
-
-
 import { Link } from "react-router-dom";
 
 import { Button } from "../ui/button";
@@ -39,7 +37,15 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
 }
   const summarizeMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
-      const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/ticket-summary`);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/ticket-summary`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+          },
+        }
+      );
       return response.data;
     },
     onSuccess: () => {
@@ -97,13 +103,35 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
 
   const resetMutation = useMutation<{ message: string }, unknown, void>({
     mutationFn: async () => {
-      const counterResponse = await axios.put(`${import.meta.env.VITE_API_URL}/api/reset-counter`);
-      const ticketsResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/api/reset-tickets`);
-      const queueStatusResponse = await axios.delete(`${import.meta.env.VITE_API_URL}/api/reset-queue-status`);
-      return { 
+      const counterResponse = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/reset-counter`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+          },
+        }
+      );
+      const ticketsResponse = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/reset-tickets`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+          },
+        }
+      );
+      const queueStatusResponse = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/reset-queue-status`,
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+          },
+        }
+      );
+      return {
         message: `Counter reset: ${counterResponse.data.message}, 
                   Tickets reset: ${ticketsResponse.data.message}, 
-                  Queue status reset: ${queueStatusResponse.data.message}` 
+                  Queue status reset: ${queueStatusResponse.data.message}`
       };
     },
     onSuccess: () => {
@@ -143,7 +171,15 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
 
   const updateExaminationTimeMutation = useMutation<{ minutes: number }, unknown, number>({
     mutationFn: async (newTime: number) => {
-      const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/examination-time`, { minutes: newTime });
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/examination-time`,
+        { minutes: newTime },
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+          },
+        }
+      );
       return response.data;
     },
     onSuccess: () => {
