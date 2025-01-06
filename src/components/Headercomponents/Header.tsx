@@ -72,7 +72,7 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
         {
           headers: {
             // Bearer トークンの形で API Key を付与
-            Authorization: `Bearer ${import.meta.env.VITE_AUTH_KEY}`,
+            Authorization: `Bearer ${import.meta.env.AUTH_KEY}`,
           },
         },
       );
