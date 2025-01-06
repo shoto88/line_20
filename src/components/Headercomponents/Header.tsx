@@ -72,11 +72,11 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
         {
           headers: {
             // Bearer トークンの形で API Key を付与
-            Authorization: `Bearer ${import.meta.env.AUTH_KEY}`,
+            Authorization: "Bearer OPC_API_ACCESS",
           },
         },
       );
-      console.log(import.meta.env.AUTH_KEY)
+      
       return response.data;
     },
     onSuccess: (data) => {
@@ -198,7 +198,6 @@ if (status === 'success' && typeof data.waiting === 'number' && typeof data.trea
         <h1 className="font-bold text-2xl">大濠パーククリニック🏥</h1>
         <div className="flex items-center relative">
         <span className="mr-2 text-sm">平均診察時間:</span>
-        <span className="mr-2 text-sm">API Key:{import.meta.env.AUTH_KEY}</span>
         {isEditingTime ? (
           <>
             <input
