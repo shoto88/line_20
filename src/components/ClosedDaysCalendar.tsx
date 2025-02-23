@@ -112,6 +112,10 @@ const ClosedDaysCalendar = () => {
         components={{
           Day: ({ date, ...props }) => {
             const day = date.getDate();
+            const isClosedDay = closedDays.some(
+              (closedDay) => closedDay.date === format(date, "yyyy-MM-dd")
+            );
+
             return (
               <Popover>
                 <PopoverTrigger asChild>
@@ -121,16 +125,15 @@ const ClosedDaysCalendar = () => {
                     className={cn(
                       "group relative flex h-9 w-9 cursor-pointer items-center justify-center p-0 text-sm",
                       "aria-selected:bg-primary aria-selected:text-primary-foreground",
-                      "disabled:cursor-not-allowed disabled:opacity-50"
+                      "disabled:cursor-not-allowed disabled:opacity-50",
+                      isClosedDay && "bg-red-100 hover:bg-red-200 text-red-700"
                     )}
                     {...props}
                   >
                     {day}
                   </Button>
                 </PopoverTrigger>
-                {closedDays.find(
-                  (day) => day.date === format(date, "yyyy-MM-dd")
-                ) && (
+                {isClosedDay && (
                   <PopoverContent
                     align="center"
                     className="w-auto p-2"
