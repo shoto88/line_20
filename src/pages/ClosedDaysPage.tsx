@@ -25,11 +25,17 @@ const ClosedDaysPage = () => {
             </Button>
           </Link>
         </div>
-        <div className="flex flex-col items-center">
-          <div className="w-full max-w-md mb-6">
+
+        {/* 横並びレイアウト */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="lg:order-2">
+            {" "}
+            {/* 日曜診療日を右側に */}
             <SundayClinicDates />
           </div>
-          <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
+          <div className="lg:order-1 bg-white rounded-lg shadow-lg p-6">
+            {" "}
+            {/* カレンダーを左側に */}
             <ClosedDaysCalendar />
           </div>
         </div>
