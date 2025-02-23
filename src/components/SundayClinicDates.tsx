@@ -1,10 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { useSundayClinics } from "@/components/hooks/useSundayClinics";
+import {
+  useSundayClinics,
+  SundayClinic,
+} from "@/components/hooks/useSundayClinics";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 
 const SundayClinicDates = () => {
-  const { sundayClinics, isLoading, error, updateMutation } = useSundayClinics();
+  const { sundayClinics, isLoading, error, updateMutation } =
+    useSundayClinics();
 
   const handleUpdate = () => {
     updateMutation.mutate();
@@ -17,7 +21,7 @@ const SundayClinicDates = () => {
     <div className="bg-white rounded-lg shadow p-4 mb-6">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">日曜診療日</h2>
-        <Button 
+        <Button
           onClick={handleUpdate}
           disabled={updateMutation.isPending}
           variant="outline"
@@ -26,13 +30,13 @@ const SundayClinicDates = () => {
         </Button>
       </div>
       <div className="space-y-2">
-        {sundayClinics?.map((clinic: { date: string }) => (
-          <div 
+        {sundayClinics?.map((clinic: SundayClinic) => (
+          <div
             key={clinic.date}
             className="flex items-center p-2 bg-blue-50 rounded"
           >
             <span className="text-blue-700">
-              {format(new Date(clinic.date), 'M月d日(E)', { locale: ja })}
+              {format(new Date(clinic.date), "M月d日(E)", { locale: ja })}
             </span>
           </div>
         ))}
