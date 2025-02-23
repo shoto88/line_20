@@ -1,7 +1,6 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
 import ClosedDaysCalendar from "@/components/ClosedDaysCalendar";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const ClosedDaysPage = () => {
   return (
