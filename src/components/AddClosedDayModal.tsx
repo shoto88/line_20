@@ -20,7 +20,7 @@ import {
 import { useClosedDays } from "./hooks/useClosedDays";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
-import { useToast } from "@/components/ui/use-toast";
+import toast from "react-hot-toast";
 
 type Props = {
   opened: boolean;
@@ -32,17 +32,12 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose, onAdd }) => {
   const [date, setDate] = useState<Date | null>(null);
   const [type, setType] = useState<"holiday" | "custom">("custom");
   const [name, setName] = useState("");
-  const { toast } = useToast();
 
   const { addMutation } = useClosedDays();
 
   const handleSubmit = () => {
     if (!date) {
-      toast({
-        title: "エラー",
-        description: "日付を選択してください",
-        variant: "destructive",
-      });
+      toast.error("日付を選択してください");
       return;
     }
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
@@ -54,19 +49,12 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose, onAdd }) => {
           setDate(null);
           setType("custom");
           setName("");
-          toast({
-            title: "休診日追加",
-            description: "休診日を追加しました",
-            variant: "success",
-          });
+          toast.success("休診日を追加しました");
         },
         onError: (error: any) => {
-          toast({
-            title: "エラー",
-            description:
-              error.response?.data?.error || "休診日の追加に失敗しました。",
-            variant: "destructive",
-          });
+          toast.error(
+            error.response?.data?.error || "休診日の追加に失敗しました。"
+          );
         },
       }
     );

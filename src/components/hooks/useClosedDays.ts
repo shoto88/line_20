@@ -37,8 +37,8 @@ export const useClosedDays = () => {
     }
   });
 
-  const addMutation = useMutation(
-    async (newClosedDay: { date: string; type: 'holiday' | 'custom'; name?: string }) => {
+  const addMutation = useMutation({
+    mutationFn: async (newClosedDay: { date: string; type: 'holiday' | 'custom'; name?: string }) => {
       const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/closed-days`, newClosedDay, {
         headers: {
           'Content-Type': 'application/json',
@@ -47,18 +47,16 @@ export const useClosedDays = () => {
       });
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['closedDays'] });
-      },
-      onError:(error) => {
-        console.error(error)
-      }
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['closedDays'] });
+    },
+    onError: (error) => {
+      console.error(error);
     }
-  );
+  });
 
-  const updateMutation = useMutation(
-    async (updatedData: { id: number; updatedClosedDay: { date: string; type: 'holiday' | 'custom'; name?: string } }) => {
+  const updateMutation = useMutation({
+    mutationFn: async (updatedData: { id: number; updatedClosedDay: { date: string; type: 'holiday' | 'custom'; name?: string } }) => {
       const { id, updatedClosedDay } = updatedData;
       const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/closed-days/${id}`, updatedClosedDay, {
         headers: {
@@ -68,11 +66,10 @@ export const useClosedDays = () => {
       });
       return response.data;
     },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries({ queryKey: ['closedDays'] });
-      },
-      onError:(error) => {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['closedDays'] });
+    },
+    onError: (error) => {
         console.error(error)
       }
     }

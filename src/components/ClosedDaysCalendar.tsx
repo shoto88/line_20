@@ -21,6 +21,7 @@ import { cn } from "@/lib/utils";
 import { useClosedDays } from "./hooks/useClosedDays";
 import AddClosedDayModal from "./AddClosedDayModal";
 import EditClosedDayModal from "./EditClosedDayModal";
+import { ja } from "date-fns/locale";
 
 dayjs.locale("ja");
 
@@ -99,28 +100,21 @@ const ClosedDaysCalendar = () => {
       />
 
       <ShadCalendar
-        locale="ja"
+        locale={ja}
         mode="single"
-        selected={selectedDate}
-        onSelect={setSelectedDate}
+        selected={selectedDate as Date}
+        onSelect={(day: Date | undefined) => setSelectedDate(day || null)}
         onMonthChange={setCurrentMonth}
         initialFocus
+        className="p-0"
         classNames={{
-          cell: (date) => {
-            const formattedDate = dayjs(date).format("YYYY-MM-DD");
-            const closedDay = closedDays.find(
-              (day) => day.date === formattedDate
-            );
-            if (closedDay) {
-              return cn(
-                "relative rounded-md p-2 text-center text-sm focus-within:relative focus-within:z-20",
-                closedDay.type === "holiday"
-                  ? "bg-red-100 text-red-600"
-                  : "bg-gray-100 text-gray-600"
-              );
-            }
-            return "hover:bg-accent hover:text-accent-foreground rounded-md";
-          },
+          day_selected:
+            "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+          day_disabled: "text-muted-foreground opacity-50",
+          head_cell:
+            "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+          cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent",
         }}
         modifiers={{
           disabled: (date) => {
