@@ -10,7 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@radix-ui/react-dialog": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-select": "^2.1.6",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.1.0",
     "@tanstack/react-query": "^5.45.0",
@@ -22,6 +25,7 @@
     "clsx": "^2.1.1",
     "date-fns": "^3.6.0",
     "date-fns-tz": "^3.0.1-beta.0",
+    "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
     "lucide-react": "^0.394.0",
     "react": "^18.2.0",
