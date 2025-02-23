@@ -137,18 +137,7 @@ const ClosedDaysCalendar = () => {
                     side="top"
                   >
                     <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {closedDays.find(
-                          (day) => day.date === format(date, "yyyy-MM-dd")
-                        )?.type === "holiday"
-                          ? "祝日"
-                          : "休診日"}
-                      </p>
-                      <p className="text-xs text-muted-foreground">
-                        {closedDays.find(
-                          (day) => day.date === format(date, "yyyy-MM-dd")
-                        )?.name || ""}
-                      </p>
+                      <p className="text-sm font-medium leading-none">休診日</p>
                     </div>
                   </PopoverContent>
                 )}

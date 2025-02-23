@@ -9,13 +9,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useClosedDays } from "./hooks/useClosedDays";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
@@ -28,9 +21,6 @@ type Props = {
 
 const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
   const [date, setDate] = useState<Date | null>(null);
-  const [type, setType] = useState<"holiday" | "custom">("custom");
-  const [name, setName] = useState("");
-
   const { addMutation } = useClosedDays();
 
   const handleSubmit = () => {
@@ -40,13 +30,11 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
     }
     const formattedDate = dayjs(date).format("YYYY-MM-DD");
     addMutation.mutate(
-      { date: formattedDate, type, name },
+      { date: formattedDate },
       {
         onSuccess: () => {
           onClose();
           setDate(null);
-          setType("custom");
-          setName("");
           toast.success("休診日を追加しました");
         },
         onError: (error: any) => {
@@ -74,34 +62,6 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
               type="date"
               value={date ? dayjs(date).format("YYYY-MM-DD") : ""}
               onChange={(e) => setDate(e.target.valueAsDate)}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="type" className="text-right">
-              種別
-            </Label>
-            <Select
-              value={type}
-              onValueChange={(value) => setType(value as "holiday" | "custom")}
-            >
-              <SelectTrigger className="col-span-3">
-                <SelectValue placeholder="選択" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="holiday">祝日</SelectItem>
-                <SelectItem value="custom">その他休診日</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="name" className="text-right">
-              休診日名
-            </Label>
-            <Input
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
               className="col-span-3"
             />
           </div>
