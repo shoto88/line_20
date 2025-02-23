@@ -25,19 +25,11 @@ const ClosedDaysPage = () => {
             </Button>
           </Link>
         </div>
-        <SundayClinicDates />
-        <div className="bg-white rounded-lg shadow-lg items-center p-6">
-          <div className="space-y-4">
-            <div className="flex items-center space-x-4 mb-4">
-              <div className="flex items-center">
-                <div className="w-4 h-4 bg-red-100 rounded mr-2"></div>
-                <span className="text-sm text-gray-600">祝日</span>
-              </div>
-              <div className="flex items-center">
-                <div className="w-4 h-4 bg-gray-100 rounded mr-2"></div>
-                <span className="text-sm text-gray-600">休診日</span>
-              </div>
-            </div>
+        <div className="flex flex-col items-center">
+          <div className="w-full max-w-md mb-6">
+            <SundayClinicDates />
+          </div>
+          <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
             <ClosedDaysCalendar />
           </div>
         </div>

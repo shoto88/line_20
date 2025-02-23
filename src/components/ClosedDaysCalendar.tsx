@@ -62,9 +62,89 @@ const ClosedDaysCalendar = () => {
   if (!closedDays) return <div>No data</div>;
 
   return (
-    <>
-      <div className="flex justify-end mb-4">
-        <Button onClick={() => setAddModalOpen(true)}>休診日追加</Button>
+    <div className="flex flex-col items-center max-w-md mx-auto">
+      <div className="w-full space-y-4">
+        <div className="flex flex-col items-center space-y-4">
+          <Button onClick={() => setAddModalOpen(true)} className="w-40">
+            休診日追加
+          </Button>
+
+          <div className="flex items-center space-x-6">
+            <div className="flex items-center">
+              <div className="w-4 h-4 bg-red-100 rounded mr-2"></div>
+              <span className="text-sm text-gray-600">祝日</span>
+            </div>
+            <div className="flex items-center">
+              <div className="w-4 h-4 bg-gray-100 rounded mr-2"></div>
+              <span className="text-sm text-gray-600">休診日</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex justify-center">
+          <ShadCalendar
+            locale={ja}
+            mode="single"
+            selected={selectedDate as Date}
+            onSelect={(day: Date | undefined) => setSelectedDate(day || null)}
+            initialFocus
+            className="p-0"
+            classNames={{
+              day_selected:
+                "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+              day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
+              day_disabled: "text-muted-foreground opacity-50",
+              head_cell:
+                "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
+              cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent",
+            }}
+            modifiers={{
+              disabled: () => false,
+            }}
+            components={{
+              Day: ({ date, ...props }) => {
+                const day = date.getDate();
+                const isClosedDay = closedDays.some(
+                  (closedDay) => closedDay.date === format(date, "yyyy-MM-dd")
+                );
+
+                return (
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        onClick={() => handleDayClick(date)}
+                        className={cn(
+                          "group relative flex h-9 w-9 cursor-pointer items-center justify-center p-0 text-sm",
+                          "aria-selected:bg-primary aria-selected:text-primary-foreground",
+                          "disabled:cursor-not-allowed disabled:opacity-50",
+                          isClosedDay &&
+                            "bg-red-100 hover:bg-red-200 text-red-700"
+                        )}
+                        {...props}
+                      >
+                        {day}
+                      </Button>
+                    </PopoverTrigger>
+                    {isClosedDay && (
+                      <PopoverContent
+                        align="center"
+                        className="w-auto p-2"
+                        side="top"
+                      >
+                        <div className="space-y-1">
+                          <p className="text-sm font-medium leading-none">
+                            休診日
+                          </p>
+                        </div>
+                      </PopoverContent>
+                    )}
+                  </Popover>
+                );
+              },
+            }}
+          />
+        </div>
       </div>
 
       <Dialog open={editModalOpen} onOpenChange={handleCloseEditModal}>
@@ -89,67 +169,7 @@ const ClosedDaysCalendar = () => {
           refetch();
         }}
       />
-
-      <ShadCalendar
-        locale={ja}
-        mode="single"
-        selected={selectedDate as Date}
-        onSelect={(day: Date | undefined) => setSelectedDate(day || null)}
-        initialFocus
-        className="p-0"
-        classNames={{
-          day_selected:
-            "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-          day: "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
-          day_disabled: "text-muted-foreground opacity-50",
-          head_cell:
-            "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
-          cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent",
-        }}
-        modifiers={{
-          disabled: () => false,
-        }}
-        components={{
-          Day: ({ date, ...props }) => {
-            const day = date.getDate();
-            const isClosedDay = closedDays.some(
-              (closedDay) => closedDay.date === format(date, "yyyy-MM-dd")
-            );
-
-            return (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    onClick={() => handleDayClick(date)}
-                    className={cn(
-                      "group relative flex h-9 w-9 cursor-pointer items-center justify-center p-0 text-sm",
-                      "aria-selected:bg-primary aria-selected:text-primary-foreground",
-                      "disabled:cursor-not-allowed disabled:opacity-50",
-                      isClosedDay && "bg-red-100 hover:bg-red-200 text-red-700"
-                    )}
-                    {...props}
-                  >
-                    {day}
-                  </Button>
-                </PopoverTrigger>
-                {isClosedDay && (
-                  <PopoverContent
-                    align="center"
-                    className="w-auto p-2"
-                    side="top"
-                  >
-                    <div className="space-y-1">
-                      <p className="text-sm font-medium leading-none">休診日</p>
-                    </div>
-                  </PopoverContent>
-                )}
-              </Popover>
-            );
-          },
-        }}
-      />
-    </>
+    </div>
   );
 };
 
