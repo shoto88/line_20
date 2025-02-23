@@ -1,4 +1,5 @@
 import ClosedDaysCalendar from "@/components/ClosedDaysCalendar";
+import SundayClinicDates from "@/components/SundayClinicDates";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
@@ -24,7 +25,7 @@ const ClosedDaysPage = () => {
             </Button>
           </Link>
         </div>
-
+        <SundayClinicDates/>
         <div className="bg-white rounded-lg shadow-lg p-6">
           <div className="space-y-4">
             <div className="flex items-center space-x-4 mb-4">
