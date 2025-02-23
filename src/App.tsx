@@ -9,7 +9,6 @@
 // import WaitingRoomDisplay from "./components/display";
 // import FrontDesk from "./components/FrontDesk ";
 
-
 // const Home = () => {
 //   return (
 //     <div>
@@ -53,8 +52,8 @@
 // }
 
 // export default App;
-import "./app/globals.css"
-import { Route, Routes } from 'react-router-dom';
+import "./app/globals.css";
+import { Route, Routes } from "react-router-dom";
 import Treat from "./components/treat";
 import UserInfo from "./components/userInfo";
 import Header from "./components/Headercomponents/Header";
@@ -62,8 +61,9 @@ import Patient from "./components/Patient";
 import TicketSummary from "./components/ticket_summary";
 import MessageComponent from "./components/Message";
 import WaitingRoomDisplay from "./components/display";
+import ClosedDaysPage from "./pages/ClosedDaysPage";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import FrontDesk from "./components/FrontDesk ";
 
@@ -71,7 +71,9 @@ const Home = () => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="text-center">
-        <h1 className="text-5xl font-bold text-pink-500 mb-12">大濠パーククリニック🏥</h1>
+        <h1 className="text-5xl font-bold text-pink-500 mb-12">
+          大濠パーククリニック🏥
+        </h1>
         <div className="grid grid-cols-2 gap-12">
           <Link to="/frontdesk">
             <Button className="w-72 h-36 text-4xl bg-blue-500 hover:bg-blue-600">
@@ -90,7 +92,12 @@ const Home = () => {
           </Link>
           <Link to="/patient">
             <Button className="w-72 h-36 text-4xl bg-purple-500 hover:bg-purple-600">
-             受付横テレビ
+              受付横テレビ
+            </Button>
+          </Link>
+          <Link to="/closed-days">
+            <Button className="w-72 h-36 text-4xl bg-teal-500 hover:bg-teal-600">
+              休診日管理
             </Button>
           </Link>
         </div>
@@ -120,9 +127,10 @@ const App = () => {
         <Route path="/ticket-summary" element={<TicketSummary />} />
         <Route path="/display" element={<WaitingRoomDisplay />} />
         <Route path="/frontdesk" element={<FrontDesk />} />
+        <Route path="/closed-days" element={<ClosedDaysPage />} />
       </Routes>
     </div>
-  )
-}
+  );
+};
 
 export default App;
