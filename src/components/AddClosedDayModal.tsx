@@ -12,7 +12,6 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -25,10 +24,9 @@ import toast from "react-hot-toast";
 type Props = {
   opened: boolean;
   onClose: () => void;
-  onAdd: () => void;
 };
 
-const AddClosedDayModal: React.FC<Props> = ({ opened, onClose, onAdd }) => {
+const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
   const [date, setDate] = useState<Date | null>(null);
   const [type, setType] = useState<"holiday" | "custom">("custom");
   const [name, setName] = useState("");
@@ -91,10 +89,8 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose, onAdd }) => {
                 <SelectValue placeholder="選択" />
               </SelectTrigger>
               <SelectContent>
-                <SelectGroup>
-                  <SelectItem value="holiday">祝日</SelectItem>
-                  <SelectItem value="custom">その他休診日</SelectItem>
-                </SelectGroup>
+                <SelectItem value="holiday">祝日</SelectItem>
+                <SelectItem value="custom">その他休診日</SelectItem>
               </SelectContent>
             </Select>
           </div>

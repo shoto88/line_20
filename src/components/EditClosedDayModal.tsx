@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -6,15 +5,15 @@ import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useClosedDays } from "./hooks/useClosedDays";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useClosedDays } from "./hooks/useClosedDays";
 
 type Props = {
   closedDay: {
@@ -24,14 +23,12 @@ type Props = {
     name?: string;
   };
   onClose: () => void;
-  onUpdate: () => void;
   onDelete: (id: number) => void;
 };
 
 const EditClosedDayModal: React.FC<Props> = ({
   closedDay,
   onClose,
-  onUpdate,
   onDelete,
 }) => {
   const [date, setDate] = useState<Date | null>(dayjs(closedDay.date).toDate());

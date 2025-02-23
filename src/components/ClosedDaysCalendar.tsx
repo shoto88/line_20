@@ -1,10 +1,9 @@
-import React, { useState, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { Calendar as ShadCalendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -13,7 +12,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
 import dayjs from "dayjs";
 import "dayjs/locale/ja";
 import { format } from "date-fns";
@@ -26,7 +24,6 @@ import { ja } from "date-fns/locale";
 dayjs.locale("ja");
 
 const ClosedDaysCalendar = () => {
-  const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [editModalOpen, setEditModalOpen] = useState(false);
@@ -79,9 +76,6 @@ const ClosedDaysCalendar = () => {
             <EditClosedDayModal
               closedDay={selectedClosedDay}
               onClose={handleCloseEditModal}
-              onUpdate={() => {
-                refetch();
-              }}
               onDelete={(id) => deleteMutation.mutate(id)}
             />
           )}
@@ -94,9 +88,6 @@ const ClosedDaysCalendar = () => {
           setAddModalOpen(false);
           refetch();
         }}
-        onAdd={() => {
-          refetch();
-        }}
       />
 
       <ShadCalendar
@@ -104,7 +95,6 @@ const ClosedDaysCalendar = () => {
         mode="single"
         selected={selectedDate as Date}
         onSelect={(day: Date | undefined) => setSelectedDate(day || null)}
-        onMonthChange={setCurrentMonth}
         initialFocus
         className="p-0"
         classNames={{
@@ -117,9 +107,7 @@ const ClosedDaysCalendar = () => {
           cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 [&:has([aria-selected])]:bg-accent",
         }}
         modifiers={{
-          disabled: (date) => {
-            return false;
-          },
+          disabled: () => false,
         }}
         components={{
           Day: ({ date, ...props }) => {
