@@ -69,15 +69,9 @@ const ClosedDaysCalendar = () => {
             休診日追加
           </Button>
 
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-red-100 rounded mr-2"></div>
-              <span className="text-sm text-gray-600">祝日</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-4 h-4 bg-gray-100 rounded mr-2"></div>
-              <span className="text-sm text-gray-600">休診日</span>
-            </div>
+          <div className="flex items-center">
+            <div className="w-4 h-4 bg-red-100 rounded mr-2"></div>
+            <span className="text-sm text-gray-600">休診日</span>
           </div>
         </div>
 
