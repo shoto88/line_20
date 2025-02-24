@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -17,11 +17,20 @@ import toast from "react-hot-toast";
 type Props = {
   opened: boolean;
   onClose: () => void;
+  initialDate: Date | null;
 };
 
-const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
-  const [date, setDate] = useState<Date | null>(null);
+const AddClosedDayModal: React.FC<Props> = ({
+  opened,
+  onClose,
+  initialDate,
+}) => {
+  const [date, setDate] = useState<Date | null>(initialDate);
   const { addMutation } = useClosedDays();
+
+  useEffect(() => {
+    setDate(initialDate);
+  }, [initialDate]);
 
   const handleSubmit = () => {
     if (!date) {
@@ -50,7 +59,7 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
     <Dialog open={opened} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>休診日追加</DialogTitle>
+          <DialogTitle>休診日の追加</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -63,8 +72,13 @@ const AddClosedDayModal: React.FC<Props> = ({ opened, onClose }) => {
               value={date ? dayjs(date).format("YYYY-MM-DD") : ""}
               onChange={(e) => setDate(e.target.valueAsDate)}
               className="col-span-3"
+              readOnly
             />
           </div>
+          <p className="text-sm text-gray-600 text-center">
+            {date ? dayjs(date).format("YYYY年M月D日") : ""}を
+            休診日として登録しますか？
+          </p>
         </div>
         <DialogFooter>
           <Button variant="outline" onClick={onClose}>

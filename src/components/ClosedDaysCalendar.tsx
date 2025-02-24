@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   Popover,
@@ -18,8 +19,8 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useClosedDays } from "./hooks/useClosedDays";
 import AddClosedDayModal from "./AddClosedDayModal";
-import EditClosedDayModal from "./EditClosedDayModal";
 import { ja } from "date-fns/locale";
+import { toast } from "react-hot-toast";
 
 dayjs.locale("ja");
 
@@ -34,13 +35,15 @@ const ClosedDaysCalendar = () => {
 
   const handleDayClick = useCallback(
     (date: Date) => {
-      setSelectedDate(date);
       const clickedDate = dayjs(date).format("YYYY-MM-DD");
       const closedDay = closedDays?.find((day) => day.date === clickedDate);
 
       if (closedDay) {
         setSelectedClosedDay(closedDay);
         setEditModalOpen(true);
+      } else {
+        setSelectedDate(date);
+        setAddModalOpen(true);
       }
     },
     [closedDays]
@@ -65,14 +68,13 @@ const ClosedDaysCalendar = () => {
     <div className="flex flex-col items-center max-w-md mx-auto">
       <div className="w-full space-y-4">
         <div className="flex flex-col items-center space-y-4">
-          <Button onClick={() => setAddModalOpen(true)} className="w-40">
-            休診日追加
-          </Button>
-
           <div className="flex items-center">
             <div className="w-4 h-4 bg-red-100 rounded mr-2"></div>
             <span className="text-sm text-gray-600">休診日</span>
           </div>
+          <p className="text-sm text-gray-600">
+            日付をタップして休診日を設定/解除できます
+          </p>
         </div>
 
         <div className="flex justify-center">
@@ -80,7 +82,11 @@ const ClosedDaysCalendar = () => {
             locale={ja}
             mode="single"
             selected={selectedDate as Date}
-            onSelect={(day: Date | undefined) => setSelectedDate(day || null)}
+            onSelect={(day: Date | undefined) => {
+              if (day) {
+                handleDayClick(day);
+              }
+            }}
             initialFocus
             className="p-0"
             classNames={{
@@ -110,10 +116,10 @@ const ClosedDaysCalendar = () => {
                         onClick={() => handleDayClick(date)}
                         className={cn(
                           "group relative flex h-9 w-9 cursor-pointer items-center justify-center p-0 text-sm",
-                          "aria-selected:bg-primary aria-selected:text-primary-foreground",
-                          "disabled:cursor-not-allowed disabled:opacity-50",
-                          isClosedDay &&
-                            "bg-red-100 hover:bg-red-200 text-red-700"
+                          "hover:bg-gray-100",
+                          isClosedDay
+                            ? "bg-red-100 hover:bg-red-200 text-red-700"
+                            : "hover:bg-gray-100"
                         )}
                         {...props}
                       >
@@ -144,15 +150,42 @@ const ClosedDaysCalendar = () => {
       <Dialog open={editModalOpen} onOpenChange={handleCloseEditModal}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>休診日編集</DialogTitle>
+            <DialogTitle>休診日の削除</DialogTitle>
           </DialogHeader>
-          {selectedClosedDay && (
-            <EditClosedDayModal
-              closedDay={selectedClosedDay}
-              onClose={handleCloseEditModal}
-              onDelete={(id) => deleteMutation.mutate(id)}
-            />
-          )}
+          <div className="py-4">
+            <p className="text-sm text-gray-600 text-center">
+              {selectedClosedDay
+                ? dayjs(selectedClosedDay.date).format("YYYY年M月D日")
+                : ""}
+              の休診日を削除しますか？
+            </p>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCloseEditModal}>
+              キャンセル
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                if (selectedClosedDay) {
+                  deleteMutation.mutate(selectedClosedDay.id, {
+                    onSuccess: () => {
+                      handleCloseEditModal();
+                      toast.success("休診日を削除しました");
+                    },
+                    onError: (error: any) => {
+                      toast.error(
+                        error.response?.data?.error ||
+                          "休診日の削除に失敗しました。"
+                      );
+                    },
+                  });
+                }
+              }}
+            >
+              削除
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
@@ -162,6 +195,7 @@ const ClosedDaysCalendar = () => {
           setAddModalOpen(false);
           refetch();
         }}
+        initialDate={selectedDate}
       />
     </div>
   );
