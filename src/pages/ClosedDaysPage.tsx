@@ -16,7 +16,7 @@ const ClosedDaysPage = () => {
               休診日と祝日の管理ができます。日付をクリックして編集や、新規追加が可能です。
             </p>
           </div>
-          <Link to="/frontdesk">
+          <Link to="/">
             <Button
               variant="outline"
               className="text-blue-700 border-blue-700 hover:bg-blue-700 hover:text-white"
