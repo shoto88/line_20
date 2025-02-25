@@ -196,7 +196,7 @@ const RemainingNumbersDisplay: React.FC<RemainingNumbersDisplayProps> =
   React.memo(({ numbers, lineIssuedNumbers }) => (
     <div className="bg-white p-2 rounded-lg shadow">
       <h3 className="text-md font-semibold mb-1">待ち番号</h3>
-      <div className="grid grid-cols-3 gap-1 max-h-64 overflow-y-auto">
+      <div className="grid grid-cols-4 gap-1 max-h-64 overflow-y-auto">
         {numbers.slice(0, 30).map((num) => (
           <div
             key={num}
